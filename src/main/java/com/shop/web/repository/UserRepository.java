@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.shop.web.dto.UserDTO;
 import com.shop.web.models.User;
 
 
@@ -13,4 +14,5 @@ import com.shop.web.models.User;
 public interface UserRepository extends JpaRepository<User, Long>{
     //custom queries
     Optional<User> findById(long id);
+    User save(UserDTO userDto);
 }

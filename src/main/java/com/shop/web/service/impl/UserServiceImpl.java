@@ -38,5 +38,10 @@ public class UserServiceImpl implements UserService {
                             .build();
         return userDto;
     }
+
+    @Override
+    public User save(User user) {
+        return userRepo.save(user);
+    }
     
 }

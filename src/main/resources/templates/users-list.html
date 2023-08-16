@@ -6,6 +6,9 @@
     layout:decorate = "~{layout}">
 <body>
     <div layout:fragment = "body" class="container mt-5">
+        <div class="row" th:replace = "~{register-form :: div.create_btn}">
+           
+        </div>
         <div class="row">
             <div class="col">
                 <table class="table">
