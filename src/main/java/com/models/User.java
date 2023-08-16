@@ -15,11 +15,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//allows reduction boilerplate code
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 
+//allows data taken from database to object
 @Entity
 @Table(name = "users")
 public class User {
