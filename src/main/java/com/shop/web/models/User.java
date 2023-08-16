@@ -1,4 +1,4 @@
-package com.models;
+package com.shop.web.models;
 
 import java.time.LocalDateTime;
 
@@ -29,6 +29,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String username;
+    private String email;
     @CreationTimestamp
     private LocalDateTime createdOn;
     @UpdateTimestamp

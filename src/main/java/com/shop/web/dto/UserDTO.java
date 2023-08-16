@@ -1,4 +1,4 @@
-package com.dto;
+package com.shop.web.dto;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +11,7 @@ import lombok.Data;
 public class UserDTO {
     private long id;
     private String username;
+    private String email;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 }

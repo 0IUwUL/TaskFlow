@@ -1,16 +1,19 @@
-package com.service.impl;
+package com.shop.web.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.dto.UserDTO;
-import com.models.User;
-import com.repository.UserRepository;
-import com.service.UserService;
+import org.springframework.stereotype.Service;
+
+import com.shop.web.dto.UserDTO;
+import com.shop.web.models.User;
+import com.shop.web.repository.UserRepository;
+import com.shop.web.service.UserService;
 
 /**
  * UserServiceImpl
  */
+@Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepo;
@@ -29,6 +32,7 @@ public class UserServiceImpl implements UserService {
         UserDTO userDto = UserDTO.builder()
                             .id(user.getId())
                             .username(user.getUsername())
+                            .email(user.getEmail())
                             .createdOn(user.getCreatedOn())
                             .updatedOn(user.getUpdatedOn())
                             .build();

@@ -1,10 +1,10 @@
-package com.repository;
+package com.shop.web.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.models.User;
+import com.shop.web.models.User;
 
 
 /**
