@@ -1,5 +1,6 @@
 package com.shop.web.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
     //custom queries
     Optional<User> findById(long id);
     User save(UserDTO userDto);
+    List<User> findAllByOrderById();
 }
