@@ -1,5 +1,6 @@
 package com.shop.web.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,8 @@ import com.shop.web.service.UserService;
 
 public class UserController {
     private UserService userService;
-    
+    private LocalDateTime created_on;
+
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -45,6 +47,7 @@ public class UserController {
     @GetMapping("/edit/{userId}")
     public String getInformation(@PathVariable("userId") long userId, Model model){
         UserDTO user = userService.findUserById(userId);
+        created_on = user.getCreatedOn();
         model.addAttribute("user", user);
         return "edit";
     }
@@ -52,6 +55,8 @@ public class UserController {
     @PostMapping("/edit/{userId}")
     public String updateUser(@PathVariable("userId") long userId, @ModelAttribute("user") UserDTO userDto){
         userDto.setId(userId);
+        userDto.setCreatedOn(created_on);
+        userDto.setUpdatedOn(LocalDateTime.now());
         userService.updateUser(userDto);
         return "redirect:/users";
     }
