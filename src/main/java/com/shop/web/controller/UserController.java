@@ -3,6 +3,7 @@ package com.shop.web.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -40,8 +41,9 @@ public class UserController {
 
     @PostMapping("/insert")
     public String insert(@Validated @ModelAttribute("users") User user){
+        // user.setPassword(password_encoder.encode(user.getPassword()));
         userService.save(user);
-        return "redirect:/users";
+        return "redirect:/debug";
     }
 
     @GetMapping("/edit/{userId}")
