@@ -38,10 +38,9 @@ public class UserController {
         return "users-list";
     }
 
-    @PostMapping("/insert")
-    public String insert(@Validated @ModelAttribute("users") User user){
-        userService.save(user);
-        return "redirect:/users";
+    @GetMapping("/insert")
+    public String showInsertForm(){
+        return "CRUD/insert";
     }
 
     @GetMapping("/edit/{userId}")
@@ -49,7 +48,13 @@ public class UserController {
         UserDTO user = userService.findUserById(userId);
         created_on = user.getCreatedOn();
         model.addAttribute("user", user);
-        return "edit";
+        return "CRUD/edit";
+    }
+
+    @PostMapping("/insert")
+    public String insert(@Validated @ModelAttribute("users") User user){
+        userService.save(user);
+        return "redirect:/users";
     }
 
     @PostMapping("/edit/{userId}")
