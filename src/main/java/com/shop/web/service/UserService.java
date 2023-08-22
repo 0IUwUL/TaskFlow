@@ -7,7 +7,7 @@ import com.shop.web.models.User;
 
 public interface UserService {
     List<UserDTO> findallUsers();
-    User save(User user);
+    User save(UserDTO userDto);
     UserDTO findUserById(long userId);
     void updateUser(UserDTO userDto);
 }
