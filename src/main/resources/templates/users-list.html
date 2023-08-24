@@ -6,8 +6,12 @@
     layout:decorate = "~{layout}">
 <body>
     <div layout:fragment = "body" class="container mt-5">
-        <div class="row" th:replace = "~{register-form :: div.create_btn}">
-           
+        <div class="row">
+            <div class="col d-flex justify-content-end">
+                <a type="button" class="btn btn-success" th:href = "@{/insert}">
+                    Insert <i class="bi bi-plus-circle"></i>
+                </a>
+            </div>
         </div>
         <div class="row">
             <div class="col">
@@ -32,13 +36,7 @@
                             <td class="data" th:text = "${user.createdOn}"></td>
                             <td class="data" th:text = "${user.updatedOn}"></td>
                             <td>
-                                <a class="btn edit" 
-                                th:data-id = "${user.id}"
-                                th:data-name = "${user.username}"
-                                th:data-email = "${user.email}"
-                                data-bs-toggle="modal" 
-                                data-bs-target="#Modal"
-                                type="button">
+                                <a class="btn edit" type="button" th:href="@{edit/{userId}(userId=${user.id})}">
                                     <i class="bi bi-pencil-fill text-warning h3"></i>
                                 </a>
                             </td>
@@ -53,20 +51,6 @@
                     </tbody>
                 </table>
             </div>
-        <!-- Modal -->
-        <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h1 class="modal-title fs-5" id="ModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                
-            </div>
-            </div>
-        </div>
-        </div>
     </div>
     
 </body>

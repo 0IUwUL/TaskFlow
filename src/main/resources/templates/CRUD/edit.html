@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html 
+    lang="en"
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate = "~{layout}">
+<body>
+    <div layout:fragment = "body" class="container mt-5 col-lg-4">
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <h1>Edit Form</h1>
+            </div>
+        </div>
+        <form method="post" role="form" th:action = "@{/edit/{userId}(userId=${user.id})}" th:object = "${user}">
+            <input type="hidden" id="id" name="id" field="*{id}" th:value="${user.id}"/>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name = "username" field="*{username}" th:value="${user.username}" classappend="${#fields.hasErrors('username')}? fieldError" />
+                    <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}"></p>
+                    <p th:if="not ${#fields.hasErrors('username')}" class="text-success">Looks good <i class="bi bi-hand-thumbs-up-fill"></i></p>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name = "email" field="*{email}" th:value="${user.email}" classappend="${#fields.hasErrors('email')}? fieldError" />
+                    <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}"></p>
+                    <p th:if="not ${#fields.hasErrors('email')}" class="text-success">Looks good <i class="bi bi-hand-thumbs-up-fill"></i></p>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name = "password" field="*{password}" th:value="${user.password}" classappend="${#fields.hasErrors('password')}? fieldError"/>
+                    <p th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></p>
+                </div>  
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
+                    <a type="button" th:href="@{/users}" class="btn btn-secondary">Close</a>
+                    <button type="submit" class="btn btn-success">Edit <i class="bi bi-pencil-square"></i></button>
+                </div>
+        </form>
+    </div>
+    
+</body>
+</html>
