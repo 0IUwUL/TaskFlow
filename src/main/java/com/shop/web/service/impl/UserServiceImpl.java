@@ -77,5 +77,11 @@ public class UserServiceImpl implements UserService {
         userRepo.deleteById(userId);
         return user.getUsername();
     }
+
+    @Override
+    public List<UserDTO> searchUsers(String query) {
+        List<User> users = userRepo.searchUsers(query);
+        return users.stream().map(user -> mapToUserDto(user)).collect(Collectors.toList());
+    }
     
 }

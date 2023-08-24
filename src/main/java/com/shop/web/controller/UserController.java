@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shop.web.dto.UserDTO;
@@ -29,6 +30,8 @@ public class UserController {
         this.userService = userService;
     }
 
+    //read
+
     @GetMapping("/")
     public String landingpage(){
         return "landing";
@@ -41,6 +44,18 @@ public class UserController {
 
         return "users-list";
     }
+
+    @GetMapping("/search")
+    public String userSearch(@RequestParam(value = "search") String query, Model model){
+        if (query.isEmpty()){
+            return "redirect:/users";
+        }
+        List<UserDTO> users = userService.searchUsers(query);
+        model.addAttribute("users", users);
+        return "users-list";
+    }
+
+    //insert
 
     @GetMapping("/insert")
     public String showInsertForm(Model model){
@@ -60,6 +75,8 @@ public class UserController {
         return "redirect:/users";
     }
     
+    //edit
+
     @GetMapping("/edit/{userId}")
     public String getInformation(@PathVariable("userId") long userId, Model model){
         UserDTO user = userService.findUserById(userId);
@@ -82,6 +99,8 @@ public class UserController {
         return "redirect:/users";
     }
 
+    //delete
+
     @GetMapping("/delete/{userId}")
     public String deleteUser(@PathVariable("userId") long userId, RedirectAttributes redirectatts){
         String name = userService.delete(userId);
@@ -89,4 +108,6 @@ public class UserController {
         redirectatts.addFlashAttribute("name", name);
         return "redirect:/users";
     }
+
+
 }
