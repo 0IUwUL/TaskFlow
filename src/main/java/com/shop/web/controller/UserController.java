@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shop.web.dto.UserDTO;
 import com.shop.web.models.User;
@@ -78,6 +79,14 @@ public class UserController {
         userDto.setCreatedOn(created_on);
         userDto.setUpdatedOn(LocalDateTime.now());
         userService.updateUser(userDto);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable("userId") long userId, RedirectAttributes redirectatts){
+        String name = userService.delete(userId);
+        System.out.println(name);
+        redirectatts.addFlashAttribute("name", name);
         return "redirect:/users";
     }
 }

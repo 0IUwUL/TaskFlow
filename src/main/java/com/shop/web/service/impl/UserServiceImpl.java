@@ -70,5 +70,12 @@ public class UserServiceImpl implements UserService {
                         .build();
         return userDto;
     }
+
+    @Override
+    public String delete(long userId) {
+        User user = userRepo.findById(userId).get();
+        userRepo.deleteById(userId);
+        return user.getUsername();
+    }
     
 }

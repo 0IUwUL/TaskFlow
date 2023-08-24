@@ -42,7 +42,7 @@
                             </td>
                             <td>
                                 <a class="btn delete" 
-                                th:data-id = "${user.id}"
+                                th:href = "@{delete/{userId}(userId = ${user.id})}"
                                 type="button">
                                     <i class="bi bi-x-circle text-danger h3"></i>
                                 </a>
@@ -51,6 +51,16 @@
                     </tbody>
                 </table>
             </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div class="toast" th:classappend="${name}? show" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-danger text-white">
+            <strong class="me-auto">Notice</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">User "<span th:text ="${name}" class="inline"></span>" has been deleted.</div>
+        </div>
     </div>
     
 </body>
