@@ -1,45 +1,45 @@
 package com.shop.web.models;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.CascadeType;
+import com.shop.web.Status;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//allows reduction boilerplate code
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
-//allows data taken from database to object
 @Entity
-@Table(name = "users")
-public class User {
+
+public class Details {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    private String email;
-    private String password;
+    private String title;
+    @Enumerated(EnumType.STRING)
+    private Status type;
+    private String description;
     @CreationTimestamp
     private LocalDateTime createdOn;
     @UpdateTimestamp
     private LocalDateTime updatedOn;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private Set<Details> todo = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
 }

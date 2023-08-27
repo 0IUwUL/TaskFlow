@@ -42,7 +42,7 @@ public class UserController {
         List<UserDTO> users = userService.findallUsers();
         model.addAttribute("users", users);
 
-        return "users-list";
+        return "CRUD-user/users-list";
     }
 
     @GetMapping("/search")
@@ -52,7 +52,7 @@ public class UserController {
         }
         List<UserDTO> users = userService.searchUsers(query);
         model.addAttribute("users", users);
-        return "users-list";
+        return "CRUD-user/users-list";
     }
 
     //insert
@@ -61,7 +61,7 @@ public class UserController {
     public String showInsertForm(Model model){
         User user = new User();
         model.addAttribute("user", user);
-        return "CRUD/insert";
+        return "CRUD-user/insert";
     }
 
     @PostMapping("/insert")
@@ -69,7 +69,7 @@ public class UserController {
         if(result.hasErrors()){
             System.out.println(result);
             model.addAttribute("user", userDto);
-            return "CRUD/insert";
+            return "CRUD-user/insert";
         }
         userService.save(userDto);
         return "redirect:/users";
@@ -82,7 +82,7 @@ public class UserController {
         UserDTO user = userService.findUserById(userId);
         created_on = user.getCreatedOn();
         model.addAttribute("user", user);
-        return "CRUD/edit";
+        return "CRUD-user/edit";
     }
 
     @PostMapping("/edit/{userId}")
@@ -90,7 +90,7 @@ public class UserController {
                              @Valid @ModelAttribute("user") UserDTO userDto,
                              BindingResult result, Model model){
         if(result.hasErrors()){
-            return "CRUD/edit";
+            return "CRUD-user/edit";
         }
         userDto.setId(userId);
         userDto.setCreatedOn(created_on);
