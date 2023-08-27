@@ -55,14 +55,14 @@ public class DetailController {
     }
 
     //receive insert
-    @PostMapping("/insert_task")
-    public String insert(@Valid @ModelAttribute("detail") DetailsDTO detailDTO, BindingResult result, Model model){
+    @PostMapping("/insert_task/{userId}")
+    public String insert(@PathVariable("userId") long userId, @Valid @ModelAttribute("detail") DetailsDTO detailDTO, BindingResult result, Model model){
         System.out.println(detailDTO);
         if(result.hasErrors()){
             model.addAttribute("detail", detailDTO);
             return "CRUD-detail/insert";
         }
-        // userService.save(userDto);
-        return "redirect:/users";
+        detailService.createDetail(userId, detailDTO);
+        return "redirect:/detail/"+userId;
     }
 }

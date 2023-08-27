@@ -12,22 +12,22 @@
             </div>
         </div>
 
-        <form method="post" role="form" th:action="@{/insert_task}" th:object = "${detail}">
+        <form method="post" role="form" th:action="@{/insert_task/{userId}(userId=${userId})}" th:object = "${detail}">
             <input type="hidden" id="id" name="id" field="*{id}"/>
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text"class="form-control" placeholder="Input Title of Task" id="title" name="title"/>
+                <input type="text"class="form-control" placeholder="Input Title of Task" id="title" name="title" th:field="*{title}"/>
                 <p th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}"></p>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" style="height: 100px"></textarea>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" th:field="*{description}" style="height: 100px"></textarea>
                     <label for="description">Insert Description</label>
                 </div>
                 <p th:if="${#fields.hasErrors('description')}" class="text-danger" th:errors="*{description}"></p>
             </div>
-            <select class="form-select" name="type" aria-label="Default value To do">
+            <select class="form-select" name="type" aria-label="Default value To do" th:field = "*{type}">
                 <option th:each="value: ${status}" th:value="${value.key}" th:text="${value.value}"></option>
             </select>
         

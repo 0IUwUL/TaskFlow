@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.shop.web.Status;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class DetailsDTO {
     private String title;
     private Status type;
     @NotEmpty(message="Description Field shall not be empty.")
+    @Column(length = 256)
     private String description;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;

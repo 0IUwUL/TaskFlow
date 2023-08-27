@@ -9,6 +9,8 @@ import com.shop.web.repository.DetailsRepository;
 import com.shop.web.repository.UserRepository;
 import com.shop.web.service.DetailService;
 
+import jakarta.validation.Valid;
+
 @Service
 public class DetailServiceImp implements DetailService {
 
@@ -30,7 +32,9 @@ public class DetailServiceImp implements DetailService {
     private Details maptoDetail(DetailsDTO detailsDTO){
         return Details.builder()
                         .id(detailsDTO.getId())
+                        .title(detailsDTO.getTitle())
                         .type(detailsDTO.getType())
+                        .description(detailsDTO.getDescription())
                         .build();
     }
     
