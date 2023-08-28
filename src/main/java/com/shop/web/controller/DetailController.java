@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shop.web.Status;
 import com.shop.web.dto.DetailsDTO;
 import com.shop.web.models.Details;
 import com.shop.web.service.DetailService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 
@@ -40,8 +42,9 @@ public class DetailController {
 
     //display all of tasks
     @GetMapping("/detail")
-    public String visitAllDetails(Model model){
+    public String visitAllDetails(Model model, HttpSession session){
         List<DetailsDTO> tasks = detailService.findallTasks();
+        session.setAttribute("lastVisit", "/detail");
         model.addAttribute("detail", tasks);
         model.addAttribute("view_all", true);
         model.addAttribute("status", mapStatuswithString);
@@ -50,7 +53,8 @@ public class DetailController {
 
     //display list of tasks of user
     @GetMapping("/detail/{userId}")
-    public String visitDetail(@PathVariable("userId") Long userId, Model model){
+    public String visitDetail(@PathVariable("userId") Long userId, Model model, HttpSession session){
+        session.setAttribute("lastVisit", "/detail/"+userId);
         List<DetailsDTO> tasks = detailService.findDetailByUser(userId);
         model.addAttribute("userId", userId);
         model.addAttribute("detail", tasks);
@@ -97,7 +101,8 @@ public class DetailController {
     @PostMapping("/edit_detail/{detailId}")
     public String updateUser(@PathVariable("detailId") long detailId, 
                              @Valid @ModelAttribute("detail") DetailsDTO detailDto,
-                             BindingResult result, Model model){
+                             BindingResult result, Model model,
+                             HttpSession session){
         if(result.hasErrors()){
             model.addAttribute("detail", detailDto);
             model.addAttribute("status", mapStatuswithString);
@@ -106,12 +111,18 @@ public class DetailController {
         DetailsDTO detail_user = detailService.findById(detailId);
         detailDto.setId(detailId);
         detailDto.setUser(detail_user.getUser());
-
-        Long id = detail_user.getUser().getId();
-
         detailDto.setCreatedOn(created_on);
         detailDto.setUpdatedOn(LocalDateTime.now());
         detailService.updateDetail(detailDto);
-        return "redirect:/detail/"+id;
+        return "redirect:"+(String) session.getAttribute("lastVisit");
     }
+
+    @GetMapping("/detail/{detailId}/delete")
+    public String detailDelete(@PathVariable("detailId") long detailId, RedirectAttributes redirect,
+                                HttpSession session) {
+        String title = detailService.deleteTask(detailId);
+        redirect.addFlashAttribute("title", title);
+        return "redirect:"+(String)session.getAttribute("lastVisit");
+    }
+    
 }

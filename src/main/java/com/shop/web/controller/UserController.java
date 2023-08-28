@@ -104,7 +104,6 @@ public class UserController {
     @GetMapping("/user/delete/{userId}")
     public String deleteUser(@PathVariable("userId") long userId, RedirectAttributes redirectatts){
         String name = userService.delete(userId);
-        System.out.println(name);
         redirectatts.addFlashAttribute("name", name);
         return "redirect:/users";
     }

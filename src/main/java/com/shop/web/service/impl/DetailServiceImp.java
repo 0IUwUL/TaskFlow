@@ -63,5 +63,12 @@ public class DetailServiceImp implements DetailService {
         Details details = detailRepo.findById(detailId).get();
         return maptoDetailDTO(details);
     }
+
+    @Override
+    public String deleteTask(long detailId) {
+        String title = detailRepo.findById(detailId).get().getTitle();
+        detailRepo.deleteById(detailId);
+        return title;
+    }
     
 }

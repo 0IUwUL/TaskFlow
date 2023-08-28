@@ -13,4 +13,5 @@ public interface DetailService {
     List<DetailsDTO> findDetailByUser(Long userId);
     void updateDetail(@Valid DetailsDTO detailDto);
     DetailsDTO findById(Long detailId);
+    String deleteTask(long detailId);
 }
