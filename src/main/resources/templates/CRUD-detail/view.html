@@ -7,13 +7,15 @@
 <body>
     <div layout:fragment = "body" class="container mt-5">
         <div class="row">
-            <div class="col">
-                <a type="button" class="btn btn-success" th:href = "@{/detail/{userId}/new(userId=${userId})}">
-                    Insert <i class="bi bi-plus-circle"></i>
-                </a>
-            </div>
-            <div class="col">
-                <form class="d-flex" role="search">
+            <th:block th:unless="${view_all}">
+                <div class="col">
+                    <a type="button" class="btn btn-success" th:href = "@{/detail/{userId}/new(userId=${userId})}">
+                        Insert <i class="bi bi-plus-circle"></i>
+                    </a>
+                </div>
+            </th:block>
+            <div class= "col" th:classappend="${view_all}? 'd-flex justify-content-end':''">
+                <form class="d-flex" role="search" th:classappend="${view_all}? 'col-6':''"  >
                     <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
@@ -35,14 +37,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="align-middle"></tr>
-                                <td>No data</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                            <th:block th:if="${#lists.isEmpty(detail)}">
+                                <tr class="align-middle"></tr>
+                                    <td>No data</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </th:block>
+                            <tr class="align-middle" th:each="task: ${detail}">
+                                    <th scope = "row" th:text = "${task.id}" class="data"></th>
+                                    <td class="data" th:text = "${task.title}"></td>
+                                    <td class="data" th:text = "${task.description}"></td>
+                                    <td class="data" th:text = "${task.createdOn}"></td>
+                                    <td class="data" th:text = "${task.updatedOn}"></td>
+                                    <td class="data"><a type="button" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a></td>
+                                    <td class="data"><a type="button" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a></td>
                             </tr>
                         </tbody>
                 </table>

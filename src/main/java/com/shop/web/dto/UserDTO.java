@@ -1,6 +1,8 @@
 package com.shop.web.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,4 +25,6 @@ public class UserDTO {
     private String password;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+
+    private List<DetailsDTO> todo;
 }

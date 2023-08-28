@@ -9,7 +9,8 @@ import com.shop.web.dto.UserDTO;
 import com.shop.web.models.User;
 import com.shop.web.repository.UserRepository;
 import com.shop.web.service.UserService;
-
+import static com.shop.web.mapper.UserMapper.mapToUser;
+import static com.shop.web.mapper.UserMapper.mapToUserDto;
 /**
  * UserServiceImpl
  */
@@ -28,20 +29,9 @@ public class UserServiceImpl implements UserService {
         return users.stream().map((user) -> mapToUserDto(user)).collect(Collectors.toList());
     }
 
-    private UserDTO mapToUserDto(User user){
-        UserDTO userDto = UserDTO.builder()
-                            .id(user.getId())
-                            .username(user.getUsername())
-                            .email(user.getEmail())
-                            .createdOn(user.getCreatedOn())
-                            .updatedOn(user.getUpdatedOn())
-                            .build();
-        return userDto;
-    }
-
     @Override
     public User save(UserDTO userDTO) {
-        User user = mapToUserDto(userDTO);
+        User user = mapToUser(userDTO);
         return userRepo.save(user);
     }
 
@@ -54,21 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(UserDTO userDto) {
-        User user = mapToUserDto(userDto);
+        User user = mapToUser(userDto);
 
         userRepo.save(user);
-    }
-
-    private User mapToUserDto(UserDTO user) {
-        User userDto = User.builder()
-                        .id(user.getId())
-                        .username(user.getUsername())
-                        .email(user.getEmail())
-                        .password(user.getPassword())
-                        .createdOn(user.getCreatedOn())
-                        .updatedOn(user.getUpdatedOn())
-                        .build();
-        return userDto;
     }
 
     @Override

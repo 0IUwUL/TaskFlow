@@ -1,6 +1,7 @@
 package com.shop.web.controller;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -29,12 +30,23 @@ public class DetailController {
         this.detailService = detailService;
     }
 
-    //display list of tasks
+    //display all of tasks
+    @GetMapping("/detail")
+    public String visitAllDetails(Model model){
+        List<DetailsDTO> tasks = detailService.findallTasks();
+        model.addAttribute("detail", tasks);
+        model.addAttribute("view_all", true);
+        return "CRUD-detail/view";
+    }
+
+    //display list of tasks of user
     @GetMapping("/detail/{userId}")
     public String visitDetail(@PathVariable("userId") Long userId, Model model){
-        Details detail = new Details();
+        DetailsDTO tasks = detailService.findDetailByUser(userId);
+        
         model.addAttribute("userId", userId);
-        model.addAttribute("detail", detail);
+        model.addAttribute("detail", tasks);
+        model.addAttribute("view_all", false);
         return "CRUD-detail/view";
     }
 

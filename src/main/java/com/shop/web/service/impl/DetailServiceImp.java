@@ -8,8 +8,12 @@ import com.shop.web.models.User;
 import com.shop.web.repository.DetailsRepository;
 import com.shop.web.repository.UserRepository;
 import com.shop.web.service.DetailService;
+import static com.shop.web.mapper.DetailMapper.maptoDetail;
+import static com.shop.web.mapper.DetailMapper.maptoDetailDTO;
 
-import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DetailServiceImp implements DetailService {
@@ -29,13 +33,23 @@ public class DetailServiceImp implements DetailService {
         detailRepo.save(detail);
     }
 
-    private Details maptoDetail(DetailsDTO detailsDTO){
-        return Details.builder()
-                        .id(detailsDTO.getId())
-                        .title(detailsDTO.getTitle())
-                        .type(detailsDTO.getType())
-                        .description(detailsDTO.getDescription())
-                        .build();
+    @Override
+    public List<DetailsDTO> findallTasks() {
+        List<Details> tasks = detailRepo.findAllByOrderById();
+        return tasks.stream().map((task) -> maptoDetailDTO(task)).collect(Collectors.toList());
+    }
+
+    @Override
+    public DetailsDTO findDetailByUser(Long userId) {
+        Optional<Details> details = detailRepo.findByUserId(userId);
+        Details tasks = new Details();
+        if (details.isPresent()) {
+            tasks = details.get();
+            return maptoDetailDTO(tasks);
+        }else{
+            return null;
+        }
+        
     }
     
 }

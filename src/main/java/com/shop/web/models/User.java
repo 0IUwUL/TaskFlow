@@ -1,8 +1,8 @@
 package com.shop.web.models;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -41,5 +41,7 @@ public class User {
     private LocalDateTime updatedOn;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private Set<Details> todo = new HashSet<>();
+    @Builder.Default
+    private List<Details> todo = new ArrayList<>();
+
 }
