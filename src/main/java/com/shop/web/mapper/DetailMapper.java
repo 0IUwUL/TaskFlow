@@ -12,6 +12,7 @@ public class DetailMapper {
                         .description(detailsDTO.getDescription())
                         .createdOn(detailsDTO.getCreatedOn())
                         .updatedOn(detailsDTO.getUpdatedOn())
+                        .user(detailsDTO.getUser())
                         .build();
     }
 
@@ -23,6 +24,7 @@ public class DetailMapper {
                         .description(details.getDescription())
                         .createdOn(details.getCreatedOn())
                         .updatedOn(details.getUpdatedOn())
+                        .user(details.getUser())
                         .build();
     }
 }

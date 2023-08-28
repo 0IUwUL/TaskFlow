@@ -3,6 +3,7 @@ package com.shop.web.dto;
 import java.time.LocalDateTime;
 
 import com.shop.web.Status;
+import com.shop.web.models.User;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,4 +27,5 @@ public class DetailsDTO {
     private String description;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+    private User user;
 }

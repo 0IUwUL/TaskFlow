@@ -77,7 +77,7 @@ public class UserController {
     
     //edit
 
-    @GetMapping("/edit/{userId}")
+    @GetMapping("/user/edit/{userId}")
     public String getInformation(@PathVariable("userId") long userId, Model model){
         UserDTO user = userService.findUserById(userId);
         created_on = user.getCreatedOn();
@@ -85,7 +85,7 @@ public class UserController {
         return "CRUD-user/edit";
     }
 
-    @PostMapping("/edit/{userId}")
+    @PostMapping("/user/edit/{userId}")
     public String updateUser(@PathVariable("userId") long userId, 
                              @Valid @ModelAttribute("user") UserDTO userDto,
                              BindingResult result, Model model){
@@ -101,7 +101,7 @@ public class UserController {
 
     //delete
 
-    @GetMapping("/delete/{userId}")
+    @GetMapping("/user/delete/{userId}")
     public String deleteUser(@PathVariable("userId") long userId, RedirectAttributes redirectatts){
         String name = userService.delete(userId);
         System.out.println(name);

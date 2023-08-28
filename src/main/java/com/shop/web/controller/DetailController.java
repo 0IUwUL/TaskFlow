@@ -1,5 +1,6 @@
 package com.shop.web.controller;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,8 @@ import jakarta.validation.Valid;
 public class DetailController {
     private DetailService detailService;
     private static final Map <Status, String> mapStatuswithString = new LinkedHashMap <>();
-    
+    private LocalDateTime created_on;
+
     static{
         mapStatuswithString.put(Status.TODO, "To Do");
         mapStatuswithString.put(Status.DONE, "Done");
@@ -42,14 +44,14 @@ public class DetailController {
         List<DetailsDTO> tasks = detailService.findallTasks();
         model.addAttribute("detail", tasks);
         model.addAttribute("view_all", true);
+        model.addAttribute("status", mapStatuswithString);
         return "CRUD-detail/view";
     }
 
     //display list of tasks of user
     @GetMapping("/detail/{userId}")
     public String visitDetail(@PathVariable("userId") Long userId, Model model){
-        DetailsDTO tasks = detailService.findDetailByUser(userId);
-        
+        List<DetailsDTO> tasks = detailService.findDetailByUser(userId);
         model.addAttribute("userId", userId);
         model.addAttribute("detail", tasks);
         model.addAttribute("view_all", false);
@@ -69,14 +71,47 @@ public class DetailController {
     }
 
     //receive insert
-    @PostMapping("/insert_task/{userId}")
+    @PostMapping("/insert_detail/{userId}")
     public String insert(@PathVariable("userId") long userId, @Valid @ModelAttribute("detail") DetailsDTO detailDTO, BindingResult result, Model model){
-        System.out.println(detailDTO);
         if(result.hasErrors()){
             model.addAttribute("detail", detailDTO);
+            model.addAttribute("status", mapStatuswithString);
             return "CRUD-detail/insert";
         }
         detailService.createDetail(userId, detailDTO);
         return "redirect:/detail/"+userId;
+    }
+
+    //display edit form
+    @GetMapping("/detail/{detailId}/edit")
+    public String editDetail(@PathVariable("detailId") Long detailId, Model model){
+        DetailsDTO detailsDTO = detailService.findById(detailId);
+        if(detailsDTO != null)
+            created_on = detailsDTO.getCreatedOn();
+        model.addAttribute("detail", detailsDTO);
+        model.addAttribute("detailId", detailId);
+        model.addAttribute("status", mapStatuswithString);
+        return "CRUD-detail/edit";
+    }
+
+    @PostMapping("/edit_detail/{detailId}")
+    public String updateUser(@PathVariable("detailId") long detailId, 
+                             @Valid @ModelAttribute("detail") DetailsDTO detailDto,
+                             BindingResult result, Model model){
+        if(result.hasErrors()){
+            model.addAttribute("detail", detailDto);
+            model.addAttribute("status", mapStatuswithString);
+            return "CRUD-detail/edit";
+        }
+        DetailsDTO detail_user = detailService.findById(detailId);
+        detailDto.setId(detailId);
+        detailDto.setUser(detail_user.getUser());
+
+        Long id = detail_user.getUser().getId();
+
+        detailDto.setCreatedOn(created_on);
+        detailDto.setUpdatedOn(LocalDateTime.now());
+        detailService.updateDetail(detailDto);
+        return "redirect:/detail/"+id;
     }
 }

@@ -11,7 +11,7 @@
                 <h1>Edit Form</h1>
             </div>
         </div>
-        <form method="post" role="form" th:action = "@{/edit/{userId}(userId=${user.id})}" th:object = "${user}">
+        <form method="post" role="form" th:action = "@{/user/edit/{userId}(userId=${user.id})}" th:object = "${user}">
             <input type="hidden" id="id" name="id" field="*{id}" th:value="${user.id}"/>
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>

@@ -1,7 +1,6 @@
 package com.shop.web.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,6 +13,5 @@ public interface DetailsRepository extends JpaRepository<Details, Long> {
 
     void save(@Valid DetailsDTO detailDTO);
     List<Details> findAllByOrderById();
-    Optional<Details> findByUserId(Long userId);
-    
+    List<Details> findByUserId(Long userId);
 }

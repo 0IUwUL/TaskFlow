@@ -44,19 +44,19 @@
                             <td class="data" th:text = "${user.createdOn}"></td>
                             <td class="data" th:text = "${user.updatedOn}"></td>
                             <td>
-                                <a class="btn edit" type="button" th:href="@{edit/{userId}(userId=${user.id})}">
+                                <a class="btn" type="button" th:href="@{/user/edit/{userId}(userId=${user.id})}">
                                     <i class="bi bi-pencil-fill text-warning h3"></i>
                                 </a>
                             </td>
                             <td>
-                                <a class="btn delete" 
-                                th:href = "@{delete/{userId}(userId = ${user.id})}"
+                                <a class="btn" 
+                                th:href = "@{/user/delete/{userId}(userId = ${user.id})}"
                                 type="button">
                                     <i class="bi bi-x-circle text-danger h3"></i>
                                 </a>
                             </td>
                             <td>
-                                <a class="btn delete" 
+                                <a class="btn" 
                                 th:href = "@{/detail/{userId}(userId = ${user.id})}"
                                 type="button">
                                 <i class="bi bi-file-plus-fill text-info h3"></i>
