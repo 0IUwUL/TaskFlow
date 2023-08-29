@@ -13,6 +13,7 @@ public class UserMapper {
                         .id(user.getId())
                         .name(user.getName())
                         .address(user.getAddress())
+                        .created_by(user.getCreated_by())
                         .createdOn(user.getCreatedOn())
                         .updatedOn(user.getUpdatedOn())
                         .build();
@@ -24,6 +25,7 @@ public class UserMapper {
                             .id(user.getId())
                             .name(user.getName())
                             .address(user.getAddress())
+                            .created_by(user.getCreated_by())
                             .createdOn(user.getCreatedOn())
                             .updatedOn(user.getUpdatedOn())
                             .todo(user.getTodo().stream().map((detail) -> maptoDetailDTO(detail)).collect(Collectors.toList()))

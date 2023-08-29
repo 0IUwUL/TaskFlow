@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.shop.web.dto.UserDTO;
 import com.shop.web.models.User;
+import com.shop.web.models.UserEntity;
+import com.shop.web.repository.UserEntityRepository;
 import com.shop.web.repository.UserRepository;
+import com.shop.web.security.SecurityUtil;
 import com.shop.web.service.UserService;
 import static com.shop.web.mapper.UserMapper.mapToUser;
 import static com.shop.web.mapper.UserMapper.mapToUserDto;
@@ -18,9 +21,11 @@ import static com.shop.web.mapper.UserMapper.mapToUserDto;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepo;
+    private UserEntityRepository userEntityRepo;
 
-    public UserServiceImpl(UserRepository userRepo) {
+    public UserServiceImpl(UserRepository userRepo, UserEntityRepository userEntityRepo) {
         this.userRepo = userRepo;
+        this.userEntityRepo = userEntityRepo;
     }
 
     @Override
@@ -31,7 +36,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(UserDTO userDTO) {
+        String username = SecurityUtil.getSessionUser();
+        UserEntity user_entity = userEntityRepo.findByUsername(username);
         User user = mapToUser(userDTO);
+        user.setCreated_by(user_entity);
         return userRepo.save(user);
     }
 
@@ -44,8 +52,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(UserDTO userDto) {
+        String username = SecurityUtil.getSessionUser();
+        UserEntity user_entity = userEntityRepo.findByUsername(username);
         User user = mapToUser(userDto);
-
+        user.setCreated_by(user_entity);
         userRepo.save(user);
     }
 
