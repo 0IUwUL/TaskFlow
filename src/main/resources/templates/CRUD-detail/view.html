@@ -63,8 +63,10 @@
                                         <td class="data"><a type="button" th:href="@{/detail/{detailId}/edit(detailId=${task.id})}" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a></td>
                                         <td class="data"><a type="button" th:href="@{/detail/{detailId}/delete(detailId=${task.id})}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a></td>
                                     </th:block>
-                                    <td></td>
-                                    <td></td>
+                                    <th:block th:unless="${user_entity.id} == ${task.user.created_by.id}">
+                                        <td></td>
+                                        <td></td>
+                                    </th:block>
                             </tr>
                         </tbody>
                 </table>

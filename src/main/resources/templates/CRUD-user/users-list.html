@@ -65,7 +65,11 @@
                                     </a>
                                 </td>
                             </th:block>
-                            
+                            <th:block th:unless="${user_entity.id} == ${user.created_by.id}">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </th:block>
                         </tr>
                     </tbody>
                 </table>
