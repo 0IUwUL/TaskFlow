@@ -17,7 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shop.web.Status;
 import com.shop.web.dto.DetailsDTO;
 import com.shop.web.models.Details;
+import com.shop.web.models.UserEntity;
+import com.shop.web.security.SecurityUtil;
 import com.shop.web.service.DetailService;
+import com.shop.web.service.UserEntityService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -29,21 +32,30 @@ public class DetailController {
     private DetailService detailService;
     private static final Map <Status, String> mapStatuswithString = new LinkedHashMap <>();
     private LocalDateTime created_on;
-
+    private UserEntityService userEntityService;
     static{
         mapStatuswithString.put(Status.TODO, "To Do");
         mapStatuswithString.put(Status.DONE, "Done");
         mapStatuswithString.put(Status.INPROGRESS, "In Progress");
     }
 
-    public DetailController(DetailService detailService) {
+    public DetailController(DetailService detailService, UserEntityService userEntityService) {
         this.detailService = detailService;
+        this.userEntityService = userEntityService;
     }
 
     //display all of tasks
     @GetMapping("/detail")
     public String visitAllDetails(Model model, HttpSession session){
+        UserEntity user_entity = new UserEntity();
         List<DetailsDTO> tasks = detailService.findallTasks();
+        String name = SecurityUtil.getSessionUser();
+        if(name!=null){
+            user_entity = userEntityService.findByUsername(name);
+            model.addAttribute("user_entity", user_entity);
+        }
+        model.addAttribute("user_entity", user_entity);
+
         session.setAttribute("lastVisit", "/detail");
         model.addAttribute("detail", tasks);
         model.addAttribute("view_all", true);
@@ -54,8 +66,16 @@ public class DetailController {
     //display list of tasks of user
     @GetMapping("/detail/{userId}")
     public String visitDetail(@PathVariable("userId") Long userId, Model model, HttpSession session){
+        UserEntity user_entity = new UserEntity();
         session.setAttribute("lastVisit", "/detail/"+userId);
         List<DetailsDTO> tasks = detailService.findDetailByUser(userId);
+        String name = SecurityUtil.getSessionUser();
+        if(name!=null){
+            user_entity = userEntityService.findByUsername(name);
+            model.addAttribute("user_entity", user_entity);
+        }
+        model.addAttribute("user_entity", user_entity);
+
         model.addAttribute("userId", userId);
         model.addAttribute("detail", tasks);
         model.addAttribute("view_all", false);

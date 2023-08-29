@@ -16,6 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shop.web.dto.UserDTO;
 import com.shop.web.models.User;
+import com.shop.web.models.UserEntity;
+import com.shop.web.security.SecurityUtil;
+import com.shop.web.service.UserEntityService;
 import com.shop.web.service.UserService;
 
 import jakarta.validation.Valid;
@@ -25,16 +28,25 @@ import jakarta.validation.Valid;
 public class UserController {
     private UserService userService;
     private LocalDateTime created_on;
+    private UserEntityService userEntityService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserEntityService userEntityService) {
         this.userService = userService;
+        this.userEntityService = userEntityService;
     }
 
     //read
     @GetMapping("/users")
     public String listUsers(Model model){
+        UserEntity user_entity = new UserEntity();
         List<UserDTO> users = userService.findallUsers();
+        String name = SecurityUtil.getSessionUser();
+        if(name!=null){
+            user_entity = userEntityService.findByUsername(name);
+            model.addAttribute("user_entity", user_entity);
+        }
         model.addAttribute("users", users);
+        model.addAttribute("user_entity", user_entity);
 
         return "CRUD-user/users-list";
     }

@@ -2,7 +2,9 @@
 <html 
     lang="en"
     xmlns:th="https://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,10 +19,10 @@
           <a class="navbar-brand" href="/">Navbar</a>
           <nav class="navbar" aria-label="breadcrumb">
             <ol class="breadcrumb m-0">
-              <li class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/register}">Register</a></li>
-              <li class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/login}">Login</a></li>
-              <li class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/detail}">Tasks</a></li>
-              <li class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/logout}">Log out</a></li>
+              <li sec:authorize="!isAuthenticated()" class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/register}">Register</a></li>
+              <li sec:authorize="!isAuthenticated()" class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/login}">Login</a></li>
+              <li sec:authorize="isAuthenticated()" class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/detail}">Tasks</a></li>
+              <li sec:authorize="isAuthenticated()"class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/logout}">Log out</a></li>
             </ol>
           </nav>
         </div>
