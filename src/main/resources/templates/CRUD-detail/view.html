@@ -28,7 +28,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>#</th>
-                                <th th:if="${view_all}">Username</th>
+                                <!-- <th th:if="${view_all}">Username</th> -->
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Type</th>
@@ -53,10 +53,10 @@
                             </th:block>
                             <tr class="align-middle" th:each="task: ${detail}">
                                     <th scope = "row" th:text = "${task.id}" class="data"></th>
-                                    <td th:if="${view_all}" th:text="${task.user.getUsername()}"></td>
+                                    <!-- <td th:if="${view_all}" th:text="${task.user.getUsername()}"></td> -->
                                     <td class="data" th:text = "${task.title}"></td>
                                     <td class="data" th:text = "${task.description}"></td>
-                                    <td class="data" th:text = "${status.get(task.type)}"></td>
+                                    <td class="data" th:text = "${status_task.get(task.type)}"></td>
                                     <td class="data" th:text = "${task.createdOn}"></td>
                                     <td class="data" th:text = "${task.updatedOn}"></td>
                                     <td class="data"><a type="button" th:href="@{/detail/{detailId}/edit(detailId=${task.id})}" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a></td>

@@ -14,22 +14,17 @@
         <form method="post" role="form" th:action = "@{/user/edit/{userId}(userId=${user.id})}" th:object = "${user}">
             <input type="hidden" id="id" name="id" field="*{id}" th:value="${user.id}"/>
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name = "username" field="*{username}" th:value="${user.username}" th:classappend="${#fields.hasErrors('username')}? fieldError" />
-                    <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}"></p>
-                    <p th:if="not ${#fields.hasErrors('username')}" class="text-success">Looks good <i class="bi bi-hand-thumbs-up-fill"></i></p>
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name = "name" field="*{name}" th:value="${user.name}" th:classappend="${#fields.hasErrors('name')}? fieldError" />
+                    <p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
+                    <p th:if="not ${#fields.hasErrors('name')}" class="text-success">Looks good <i class="bi bi-hand-thumbs-up-fill"></i></p>
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name = "email" field="*{email}" th:value="${user.email}" th:classappend="${#fields.hasErrors('email')}? fieldError" />
-                    <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}"></p>
-                    <p th:if="not ${#fields.hasErrors('email')}" class="text-success">Looks good <i class="bi bi-hand-thumbs-up-fill"></i></p>
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address" name = "address" field="*{address}" th:value="${user.address}" th:classappend="${#fields.hasErrors('address')}? fieldError" />
+                    <p th:if="${#fields.hasErrors('address')}" class="text-danger" th:errors="*{address}"></p>
+                    <p th:if="not ${#fields.hasErrors('address')}" class="text-success">Looks good <i class="bi bi-hand-thumbs-up-fill"></i></p>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name = "password" field="*{password}" th:value="${user.password}" th:classappend="${#fields.hasErrors('password')}? fieldError"/>
-                    <p th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></p>
-                </div>  
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
                     <a type="button" th:href="@{/users}" class="btn btn-secondary">Close</a>
                     <button type="submit" class="btn btn-success">Edit <i class="bi bi-pencil-square"></i></button>

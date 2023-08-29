@@ -47,7 +47,7 @@ public class DetailController {
         session.setAttribute("lastVisit", "/detail");
         model.addAttribute("detail", tasks);
         model.addAttribute("view_all", true);
-        model.addAttribute("status", mapStatuswithString);
+        model.addAttribute("status_task", mapStatuswithString);
         return "CRUD-detail/view";
     }
 
@@ -59,7 +59,7 @@ public class DetailController {
         model.addAttribute("userId", userId);
         model.addAttribute("detail", tasks);
         model.addAttribute("view_all", false);
-        model.addAttribute("status", mapStatuswithString);
+        model.addAttribute("status_task", mapStatuswithString);
         return "CRUD-detail/view";
     }
 
@@ -70,19 +70,23 @@ public class DetailController {
         model.addAttribute("userId", userId);
         model.addAttribute("detail", detail);
 
-        model.addAttribute("status", mapStatuswithString);
+        model.addAttribute("status_task", mapStatuswithString);
         return "CRUD-detail/insert";
     }
 
     //receive insert
     @PostMapping("/insert_detail/{userId}")
-    public String insert(@PathVariable("userId") long userId, @Valid @ModelAttribute("detail") DetailsDTO detailDTO, BindingResult result, Model model){
+    public String insert(@PathVariable("userId") long userId, @Valid @ModelAttribute("detail") DetailsDTO detailDTO, 
+                                        BindingResult result, Model model, RedirectAttributes redirectatts){
         if(result.hasErrors()){
             model.addAttribute("detail", detailDTO);
-            model.addAttribute("status", mapStatuswithString);
+            model.addAttribute("status_task", mapStatuswithString);
             return "CRUD-detail/insert";
         }
         detailService.createDetail(userId, detailDTO);
+        redirectatts.addFlashAttribute("cond", true);
+        redirectatts.addFlashAttribute("status", "success");
+        redirectatts.addFlashAttribute("message", "Detail "+ detailDTO.getTitle() +" inserted successfully.");
         return "redirect:/detail/"+userId;
     }
 
@@ -94,7 +98,7 @@ public class DetailController {
             created_on = detailsDTO.getCreatedOn();
         model.addAttribute("detail", detailsDTO);
         model.addAttribute("detailId", detailId);
-        model.addAttribute("status", mapStatuswithString);
+        model.addAttribute("status_task", mapStatuswithString);
         return "CRUD-detail/edit";
     }
 
@@ -102,10 +106,10 @@ public class DetailController {
     public String updateUser(@PathVariable("detailId") long detailId, 
                              @Valid @ModelAttribute("detail") DetailsDTO detailDto,
                              BindingResult result, Model model,
-                             HttpSession session){
+                             HttpSession session, RedirectAttributes redirectatts){
         if(result.hasErrors()){
             model.addAttribute("detail", detailDto);
-            model.addAttribute("status", mapStatuswithString);
+            model.addAttribute("status_task", mapStatuswithString);
             return "CRUD-detail/edit";
         }
         DetailsDTO detail_user = detailService.findById(detailId);
@@ -114,14 +118,20 @@ public class DetailController {
         detailDto.setCreatedOn(created_on);
         detailDto.setUpdatedOn(LocalDateTime.now());
         detailService.updateDetail(detailDto);
+
+        redirectatts.addFlashAttribute("cond", true);
+        redirectatts.addFlashAttribute("status", "warning");
+        redirectatts.addFlashAttribute("message", "Detail "+ detail_user.getTitle() +" updated successfully.");
         return "redirect:"+(String) session.getAttribute("lastVisit");
     }
 
     @GetMapping("/detail/{detailId}/delete")
     public String detailDelete(@PathVariable("detailId") long detailId, RedirectAttributes redirect,
-                                HttpSession session) {
+                                HttpSession session, RedirectAttributes redirectatts) {
         String title = detailService.deleteTask(detailId);
-        redirect.addFlashAttribute("title", title);
+        redirectatts.addFlashAttribute("cond", true);
+        redirectatts.addFlashAttribute("status", "danger");
+        redirectatts.addFlashAttribute("message", "Detail "+ title +" updated successfully.");
         return "redirect:"+(String)session.getAttribute("lastVisit");
     }
     

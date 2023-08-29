@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
     public String delete(long userId) {
         User user = userRepo.findById(userId).get();
         userRepo.deleteById(userId);
-        return user.getUsername();
+        return user.getName();
     }
 
     @Override

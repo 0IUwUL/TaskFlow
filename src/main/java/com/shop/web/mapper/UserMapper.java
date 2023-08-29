@@ -11,9 +11,8 @@ public class UserMapper {
     public static User mapToUser(UserDTO user) {
         User userDto = User.builder()
                         .id(user.getId())
-                        .username(user.getUsername())
-                        .email(user.getEmail())
-                        .password(user.getPassword())
+                        .name(user.getName())
+                        .address(user.getAddress())
                         .createdOn(user.getCreatedOn())
                         .updatedOn(user.getUpdatedOn())
                         .build();
@@ -23,8 +22,8 @@ public class UserMapper {
     public static UserDTO mapToUserDto(User user){
         UserDTO userDto = UserDTO.builder()
                             .id(user.getId())
-                            .username(user.getUsername())
-                            .email(user.getEmail())
+                            .name(user.getName())
+                            .address(user.getAddress())
                             .createdOn(user.getCreatedOn())
                             .updatedOn(user.getUpdatedOn())
                             .todo(user.getTodo().stream().map((detail) -> maptoDetailDTO(detail)).collect(Collectors.toList()))

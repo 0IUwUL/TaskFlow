@@ -31,12 +31,6 @@ public class UserController {
     }
 
     //read
-
-    @GetMapping("/")
-    public String landingpage(){
-        return "landing";
-    }
-
     @GetMapping("/users")
     public String listUsers(Model model){
         List<UserDTO> users = userService.findallUsers();
@@ -65,12 +59,16 @@ public class UserController {
     }
 
     @PostMapping("/insert")
-    public String insert(@Valid @ModelAttribute("user") UserDTO userDto, BindingResult result, Model model){
+    public String insert(@Valid @ModelAttribute("user") UserDTO userDto, BindingResult result, 
+                                Model model, RedirectAttributes redirect){
         if(result.hasErrors()){
             model.addAttribute("user", userDto);
             return "CRUD-user/insert";
         }
         userService.save(userDto);
+        redirect.addFlashAttribute("cond", true);
+        redirect.addFlashAttribute("status", "success");
+        redirect.addFlashAttribute("message", "User "+ userDto.getName() +" inserted successfully.");
         return "redirect:/users";
     }
     
@@ -87,7 +85,7 @@ public class UserController {
     @PostMapping("/user/edit/{userId}")
     public String updateUser(@PathVariable("userId") long userId, 
                              @Valid @ModelAttribute("user") UserDTO userDto,
-                             BindingResult result, Model model){
+                             BindingResult result, Model model, RedirectAttributes redirect){
         if(result.hasErrors()){
             return "CRUD-user/edit";
         }
@@ -95,6 +93,9 @@ public class UserController {
         userDto.setCreatedOn(created_on);
         userDto.setUpdatedOn(LocalDateTime.now());
         userService.updateUser(userDto);
+        redirect.addFlashAttribute("cond", true);
+        redirect.addFlashAttribute("status", "warning");
+        redirect.addFlashAttribute("message", "User "+ userDto.getName() +" updated successfully.");
         return "redirect:/users";
     }
 
@@ -103,7 +104,9 @@ public class UserController {
     @GetMapping("/user/delete/{userId}")
     public String deleteUser(@PathVariable("userId") long userId, RedirectAttributes redirectatts){
         String name = userService.delete(userId);
-        redirectatts.addFlashAttribute("name", name);
+        redirectatts.addFlashAttribute("cond", true);
+        redirectatts.addFlashAttribute("status", "warning");
+        redirectatts.addFlashAttribute("message", "User "+ name +" deleted successfully.");
         return "redirect:/users";
     }
 

@@ -28,7 +28,7 @@
                 <p th:if="${#fields.hasErrors('description')}" class="text-danger" th:errors="*{description}"></p>
             </div>
             <select class="form-select" name="type" aria-label="Default value To do" th:field = "*{type}">
-                <option th:each="value: ${status}" th:value="${value.key}" th:text="${value.value}"></option>
+                <option th:each="value: ${status_task}" th:value="${value.key}" th:text="${value.value}"></option>
             </select>
         
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-5">

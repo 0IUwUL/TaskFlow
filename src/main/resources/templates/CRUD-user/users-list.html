@@ -28,8 +28,8 @@
                     <thead class="table-light">
                         <tr>
                             <th>#</th>
-                            <th>Username</th>
-                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Address</th>
                             <th>Created On</th>
                             <th>Updated On</th>
                             <th>Actions</th>
@@ -39,8 +39,8 @@
                     <tbody>
                         <tr th:each="user: ${users}" class="align-middle">
                             <th scope = "row" th:text = "${user.id}" class="data"></th>
-                            <td class="data" th:text = "${user.username}"></td>
-                            <td class="data" th:text = "${user.email}"></td>
+                            <td class="data" th:text = "${user.name}"></td>
+                            <td class="data" th:text = "${user.address}"></td>
                             <td class="data" th:text = "${user.createdOn}"></td>
                             <td class="data" th:text = "${user.updatedOn}"></td>
                             <td>

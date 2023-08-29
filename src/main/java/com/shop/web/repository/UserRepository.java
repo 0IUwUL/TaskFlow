@@ -18,6 +18,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
     Optional<User> findById(long id);
     User save(UserDTO userDto);
     List<User> findAllByOrderById();
-    @Query("SELECT u from User u WHERE u.username LIKE CONCAT('%', :query, '%')")
+    @Query("SELECT u from User u WHERE u.name LIKE CONCAT('%', :query, '%')")
     List<User> searchUsers(String query);
 }
