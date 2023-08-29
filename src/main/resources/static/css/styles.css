@@ -3,8 +3,8 @@
     padding: 0;
 }
 
-.breadcrumb-item+.breadcrumb-item::before{
-    padding: .35em .5em;
+.breadcrumb-item+.breadcrumb-item::before {
+    padding: 1em .5em!important;
 }
 
 table tbody tr td.data{
@@ -14,3 +14,4 @@ table tbody tr td.data{
     -ms-user-select: none;
     user-select: none;
 }
+

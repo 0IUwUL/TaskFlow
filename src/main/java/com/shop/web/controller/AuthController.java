@@ -35,9 +35,7 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String loginForm(Model model){
-        RegistrationDTO registrationDTO = new RegistrationDTO();
-        model.addAttribute("user", registrationDTO);
+    public String loginForm(){
         return "auth/login";
     }
 
