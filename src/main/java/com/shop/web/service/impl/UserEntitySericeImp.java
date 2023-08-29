@@ -2,6 +2,7 @@ package com.shop.web.service.impl;
 
 import java.util.Arrays;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shop.web.dto.RegistrationDTO;
@@ -15,10 +16,12 @@ import com.shop.web.service.UserEntityService;
 public class UserEntitySericeImp implements UserEntityService {
     private UserEntityRepository userEntityRepository;
     private RoleRepository roleRepository;
-    
-    public UserEntitySericeImp(UserEntityRepository userEntityRepository, RoleRepository roleRepository) {
+    private PasswordEncoder encodePassword;
+
+    public UserEntitySericeImp(UserEntityRepository userEntityRepository, RoleRepository roleRepository, PasswordEncoder encodePassword) {
         this.userEntityRepository = userEntityRepository;
         this.roleRepository = roleRepository;
+        this.encodePassword = encodePassword;
     }
 
     @Override
@@ -26,7 +29,7 @@ public class UserEntitySericeImp implements UserEntityService {
         UserEntity user = new UserEntity();
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
-        user.setPassword(registerDto.getPassword());
+        user.setPassword(encodePassword.encode(registerDto.getPassword()));
         Role role = roleRepository.findByTitle("USER");
         user.setRoles(Arrays.asList(role));
         userEntityRepository.save(user);
