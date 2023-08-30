@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    void save(@Valid TaskDTO detailDTO);
+    void save(@Valid TaskDTO taskDTO);
     List<Task> findAllByOrderById();
     List<Task> findByUserId(Long userId);
 }

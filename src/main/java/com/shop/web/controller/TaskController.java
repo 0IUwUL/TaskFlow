@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 @Controller
 
 public class TaskController {
-    private TaskService detailService;
+    private TaskService taskService;
     private static final Map <Status, String> mapStatuswithString = new LinkedHashMap <>();
     private LocalDateTime created_on;
     private UserEntityService userEntityService;
@@ -39,16 +39,16 @@ public class TaskController {
         mapStatuswithString.put(Status.INPROGRESS, "In Progress");
     }
 
-    public TaskController(TaskService detailService, UserEntityService userEntityService) {
-        this.detailService = detailService;
+    public TaskController(TaskService taskService, UserEntityService userEntityService) {
+        this.taskService = taskService;
         this.userEntityService = userEntityService;
     }
 
     //display all of tasks
-    @GetMapping("/detail")
-    public String visitAllDetails(Model model, HttpSession session){
+    @GetMapping("/task")
+    public String visitAllTasks(Model model, HttpSession session){
         UserEntity user_entity = new UserEntity();
-        List<TaskDTO> tasks = detailService.findallTasks();
+        List<TaskDTO> tasks = taskService.findallTasks();
         String name = SecurityUtil.getSessionUser();
         if(name!=null){
             user_entity = userEntityService.findByUsername(name);
@@ -56,19 +56,19 @@ public class TaskController {
         }
         model.addAttribute("user_entity", user_entity);
 
-        session.setAttribute("lastVisit", "/detail");
-        model.addAttribute("detail", tasks);
+        session.setAttribute("lastVisit", "/task");
+        model.addAttribute("task", tasks);
         model.addAttribute("view_all", true);
         model.addAttribute("status_task", mapStatuswithString);
-        return "CRUD-detail/view";
+        return "CRUD-task/view";
     }
 
     //display list of tasks of user
-    @GetMapping("/detail/{userId}")
-    public String visitDetail(@PathVariable("userId") Long userId, Model model, HttpSession session){
+    @GetMapping("/task/{userId}")
+    public String visitTask(@PathVariable("userId") Long userId, Model model, HttpSession session){
         UserEntity user_entity = new UserEntity();
-        session.setAttribute("lastVisit", "/detail/"+userId);
-        List<TaskDTO> tasks = detailService.findDetailByUser(userId);
+        session.setAttribute("lastVisit", "/task/"+userId);
+        List<TaskDTO> tasks = taskService.findTaskByUser(userId);
         String name = SecurityUtil.getSessionUser();
         if(name!=null){
             user_entity = userEntityService.findByUsername(name);
@@ -77,81 +77,81 @@ public class TaskController {
         model.addAttribute("user_entity", user_entity);
 
         model.addAttribute("userId", userId);
-        model.addAttribute("detail", tasks);
+        model.addAttribute("task", tasks);
         model.addAttribute("view_all", false);
         model.addAttribute("status_task", mapStatuswithString);
-        return "CRUD-detail/view";
+        return "CRUD-task/view";
     }
 
     //display input form
-    @GetMapping("/detail/{userId}/new")
-    public String createDetail(@PathVariable("userId") Long userId, Model model){
-        Task detail = new Task();
+    @GetMapping("/task/{userId}/new")
+    public String createTask(@PathVariable("userId") Long userId, Model model){
+        Task task = new Task();
         model.addAttribute("userId", userId);
-        model.addAttribute("detail", detail);
+        model.addAttribute("task", task);
 
         model.addAttribute("status_task", mapStatuswithString);
-        return "CRUD-detail/insert";
+        return "CRUD-task/insert";
     }
 
     //receive insert
-    @PostMapping("/insert_detail/{userId}")
-    public String insert(@PathVariable("userId") long userId, @Valid @ModelAttribute("detail") TaskDTO detailDTO, 
+    @PostMapping("/insert_task/{userId}")
+    public String insert(@PathVariable("userId") long userId, @Valid @ModelAttribute("task") TaskDTO taskDTO, 
                                         BindingResult result, Model model, RedirectAttributes redirectatts){
         if(result.hasErrors()){
-            model.addAttribute("detail", detailDTO);
+            model.addAttribute("task", taskDTO);
             model.addAttribute("status_task", mapStatuswithString);
-            return "CRUD-detail/insert";
+            return "CRUD-task/insert";
         }
-        detailService.createDetail(userId, detailDTO);
+        taskService.createTask(userId, taskDTO);
         redirectatts.addFlashAttribute("cond", true);
         redirectatts.addFlashAttribute("status", "success");
-        redirectatts.addFlashAttribute("message", "Detail "+ detailDTO.getTitle() +" inserted successfully.");
-        return "redirect:/detail/"+userId;
+        redirectatts.addFlashAttribute("message", "Task "+ taskDTO.getTitle() +" inserted successfully.");
+        return "redirect:/task/"+userId;
     }
 
     //display edit form
-    @GetMapping("/detail/{detailId}/edit")
-    public String editDetail(@PathVariable("detailId") Long detailId, Model model){
-        TaskDTO detailsDTO = detailService.findById(detailId);
-        if(detailsDTO != null)
-            created_on = detailsDTO.getCreatedOn();
-        model.addAttribute("detail", detailsDTO);
-        model.addAttribute("detailId", detailId);
+    @GetMapping("/task/{taskId}/edit")
+    public String editTask(@PathVariable("taskId") Long taskId, Model model){
+        TaskDTO tasksDTO = taskService.findById(taskId);
+        if(tasksDTO != null)
+            created_on = tasksDTO.getCreatedOn();
+        model.addAttribute("task", tasksDTO);
+        model.addAttribute("taskId", taskId);
         model.addAttribute("status_task", mapStatuswithString);
-        return "CRUD-detail/edit";
+        return "CRUD-task/edit";
     }
 
-    @PostMapping("/edit_detail/{detailId}")
-    public String updateUser(@PathVariable("detailId") long detailId, 
-                             @Valid @ModelAttribute("detail") TaskDTO detailDto,
+    @PostMapping("/edit_task/{taskId}")
+    public String updateTask(@PathVariable("taskId") long taskId, 
+                             @Valid @ModelAttribute("task") TaskDTO taskDto,
                              BindingResult result, Model model,
                              HttpSession session, RedirectAttributes redirectatts){
         if(result.hasErrors()){
-            model.addAttribute("detail", detailDto);
+            model.addAttribute("task", taskDto);
             model.addAttribute("status_task", mapStatuswithString);
-            return "CRUD-detail/edit";
+            return "CRUD-task/edit";
         }
-        TaskDTO detail_user = detailService.findById(detailId);
-        detailDto.setId(detailId);
-        detailDto.setUser(detail_user.getUser());
-        detailDto.setCreatedOn(created_on);
-        detailDto.setUpdatedOn(LocalDateTime.now());
-        detailService.updateDetail(detailDto);
+        TaskDTO task_user = taskService.findById(taskId);
+        taskDto.setId(taskId);
+        taskDto.setUser(task_user.getUser());
+        taskDto.setCreatedOn(created_on);
+        taskDto.setUpdatedOn(LocalDateTime.now());
+        taskService.updateTask(taskDto);
 
         redirectatts.addFlashAttribute("cond", true);
         redirectatts.addFlashAttribute("status", "warning");
-        redirectatts.addFlashAttribute("message", "Detail "+ detail_user.getTitle() +" updated successfully.");
+        redirectatts.addFlashAttribute("message", "Task "+ task_user.getTitle() +" updated successfully.");
         return "redirect:"+(String) session.getAttribute("lastVisit");
     }
 
-    @GetMapping("/detail/{detailId}/delete")
-    public String detailDelete(@PathVariable("detailId") long detailId, RedirectAttributes redirect,
+    @GetMapping("/task/{taskId}/delete")
+    public String taskDelete(@PathVariable("taskId") long taskId, RedirectAttributes redirect,
                                 HttpSession session, RedirectAttributes redirectatts) {
-        String title = detailService.deleteTask(detailId);
+        String title = taskService.deleteTask(taskId);
         redirectatts.addFlashAttribute("cond", true);
         redirectatts.addFlashAttribute("status", "danger");
-        redirectatts.addFlashAttribute("message", "Detail "+ title +" updated successfully.");
+        redirectatts.addFlashAttribute("message", "Task "+ title +" updated successfully.");
         return "redirect:"+(String)session.getAttribute("lastVisit");
     }
     

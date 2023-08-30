@@ -11,8 +11,8 @@ import com.shop.web.service.TaskService;
 
 import jakarta.validation.Valid;
 
-import static com.shop.web.mapper.TaskMapper.maptoDetail;
-import static com.shop.web.mapper.TaskMapper.maptoDetailDTO;
+import static com.shop.web.mapper.TaskMapper.maptoTask;
+import static com.shop.web.mapper.TaskMapper.maptoTaskDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,54 +20,54 @@ import java.util.stream.Collectors;
 @Service
 public class TaskServiceImp implements TaskService {
 
-    private TaskRepository detailRepo;
+    private TaskRepository taskRepo;
     private UserRepository userRepo;
-    public TaskServiceImp(TaskRepository detailRepo, UserRepository userRepo) {
-        this.detailRepo = detailRepo;
+    public TaskServiceImp(TaskRepository taskRepo, UserRepository userRepo) {
+        this.taskRepo = taskRepo;
         this.userRepo = userRepo;
     }
 
     @Override
-    public void createDetail(Long userId, TaskDTO detailDTO) {
+    public void createTask(Long userId, TaskDTO taskDTO) {
         User user = userRepo.findById(userId).get();
-        Task detail = maptoDetail(detailDTO);
-        detail.setUser(user);
-        detailRepo.save(detail);
+        Task task = maptoTask(taskDTO);
+        task.setUser(user);
+        taskRepo.save(task);
     }
 
     @Override
     public List<TaskDTO> findallTasks() {
-        List<Task> tasks = detailRepo.findAllByOrderById();
-        return tasks.stream().map((task) -> maptoDetailDTO(task)).collect(Collectors.toList());
+        List<Task> tasks = taskRepo.findAllByOrderById();
+        return tasks.stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList());
     }
 
     @Override
-    public List<TaskDTO> findDetailByUser(Long userId) {
-        List<Task> details = detailRepo.findByUserId(userId);
-        if (details.isEmpty()) {
+    public List<TaskDTO> findTaskByUser(Long userId) {
+        List<Task> tasks = taskRepo.findByUserId(userId);
+        if (tasks.isEmpty()) {
             return null;
         }
-        return details.stream().map((task) -> maptoDetailDTO(task)).collect(Collectors.toList());
+        return tasks.stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList());
         
     }
 
     @Override
-    public void updateDetail(@Valid TaskDTO detailDto) {
-        Task details = maptoDetail(detailDto);
+    public void updateTask(@Valid TaskDTO taskDto) {
+        Task tasks = maptoTask(taskDto);
 
-        detailRepo.save(details);
+        taskRepo.save(tasks);
     }
 
     @Override
-    public TaskDTO findById(Long detailId) {
-        Task details = detailRepo.findById(detailId).get();
-        return maptoDetailDTO(details);
+    public TaskDTO findById(Long taskId) {
+        Task tasks = taskRepo.findById(taskId).get();
+        return maptoTaskDTO(tasks);
     }
 
     @Override
-    public String deleteTask(long detailId) {
-        String title = detailRepo.findById(detailId).get().getTitle();
-        detailRepo.deleteById(detailId);
+    public String deleteTask(long taskId) {
+        String title = taskRepo.findById(taskId).get().getTitle();
+        taskRepo.deleteById(taskId);
         return title;
     }
     

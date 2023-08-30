@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import com.shop.web.dto.UserDTO;
 import com.shop.web.models.User;
 
-import static com.shop.web.mapper.TaskMapper.maptoDetailDTO;;
+import static com.shop.web.mapper.TaskMapper.maptoTaskDTO;;
 
 public class UserMapper {
     public static User mapToUser(UserDTO user) {
@@ -28,7 +28,7 @@ public class UserMapper {
                             .created_by(user.getCreated_by())
                             .createdOn(user.getCreatedOn())
                             .updatedOn(user.getUpdatedOn())
-                            .todo(user.getTodo().stream().map((detail) -> maptoDetailDTO(detail)).collect(Collectors.toList()))
+                            .todo(user.getTodo().stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList()))
                             .build();
         return userDto;
 

@@ -8,10 +8,10 @@ import jakarta.validation.Valid;
 
 
 public interface TaskService {
-    void createDetail(Long userId, TaskDTO detailDTO);
+    void createTask(Long userId, TaskDTO taskDTO);
     List<TaskDTO> findallTasks();
-    List<TaskDTO> findDetailByUser(Long userId);
-    void updateDetail(@Valid TaskDTO detailDto);
-    TaskDTO findById(Long detailId);
-    String deleteTask(long detailId);
+    List<TaskDTO> findTaskByUser(Long userId);
+    void updateTask(@Valid TaskDTO taskDto);
+    TaskDTO findById(Long taskId);
+    String deleteTask(long taskId);
 }
