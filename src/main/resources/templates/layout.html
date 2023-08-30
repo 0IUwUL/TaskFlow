@@ -16,18 +16,16 @@
 <body>
     <nav class="navbar bg-dark py-3" data-bs-theme="dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="/">Navbar</a>
+          <a class="navbar-brand" href="/">TaskFlow</a>
           <nav class="navbar" aria-label="breadcrumb">
-            <ol class="breadcrumb m-0">
-              <li sec:authorize="!isAuthenticated()" class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/register}">Register</a></li>
-              <li sec:authorize="!isAuthenticated()" class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/login}">Login</a></li>
-              <li sec:authorize="isAuthenticated()" class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/detail}">Tasks</a></li>
-              <li sec:authorize="isAuthenticated()"class="breadcrumb-item"><a type="button" class="btn btn-dark" th:href="@{/logout}">Log out</a></li>
+            <ol class="breadcrumb m-0  d-flex align-content-center">
+              <li sec:authorize="isAuthenticated()" class="breadcrumb-item"><a type="button" class="btn btn-dark align-middle" th:href="@{/detail}">Tasks</a></li>
+              <li sec:authorize="isAuthenticated()"class="breadcrumb-item"><a type="button" class="btn btn-dark align-middle" th:href="@{/logout}">Log out</a></li>
             </ol>
           </nav>
         </div>
     </nav>
-
+    
     <div layout:fragment = "body">
 
     </div>

@@ -2,9 +2,29 @@
     margin: 0;
     padding: 0;
 }
+/* title */
+@font-face {
+    font-family: title;
+    src: url('/assets/fonts/Oswald.ttf')
+    format('truetype'); 
+ }
+
+ /* navbar */
+@font-face {
+    font-family: navTitle;
+    src: url('/assets/fonts/Exo2.ttf')
+    format('truetype'); 
+ }
+
+  /* form */
+@font-face {
+    font-family: form;
+    src: url('/assets/fonts/Catamaran.ttf')
+    format('truetype'); 
+ }
 
 .breadcrumb-item+.breadcrumb-item::before {
-    padding: 1em .5em!important;
+    padding: .5em!important;
 }
 
 table tbody tr td.data{
@@ -15,3 +35,55 @@ table tbody tr td.data{
     user-select: none;
 }
 
+nav{
+    font-family: navTitle;
+}
+
+h1.title{
+    font-family: title;
+}
+
+form{
+    font-family: form;
+}
+
+.navbar-brand{
+    font-size: 2rem!important;
+}
+
+
+
+body{
+    background-color: rgb(0, 21, 45);
+}
+
+h1.title,
+.description,
+.contain{
+    background-color: rgba(248, 248, 248, 0.766);
+}
+
+h1.title{
+    border-radius: 50px 50px 0 0;
+}
+
+.description{
+    padding-top: .5rem;
+    border-radius: 20px;
+}
+
+.box{
+    margin-top: 3rem;
+}
+
+.box a{
+    font-family: navTitle;
+}
+
+.form{
+    background-color: rgba(248, 248, 248, 0.766);
+}
+
+.form label{
+    font-weight: 700;
+}
