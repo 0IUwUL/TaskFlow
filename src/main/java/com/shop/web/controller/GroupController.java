@@ -26,100 +26,100 @@ import jakarta.validation.Valid;
 @Controller
 
 public class GroupController {
-    private GroupService userService;
+    private GroupService groupService;
     private LocalDateTime created_on;
     private UserEntityService userEntityService;
 
-    public GroupController(GroupService userService, UserEntityService userEntityService) {
-        this.userService = userService;
+    public GroupController(GroupService groupService, UserEntityService userEntityService) {
+        this.groupService = groupService;
         this.userEntityService = userEntityService;
     }
 
     //read
-    @GetMapping("/users")
+    @GetMapping("/groups")
     public String listUsers(Model model){
         UserEntity user_entity = new UserEntity();
-        List<GroupDTO> users = userService.findallUsers();
+        List<GroupDTO> groups = groupService.findallUsers();
         String name = SecurityUtil.getSessionUser();
         if(name!=null){
             user_entity = userEntityService.findByUsername(name);
             model.addAttribute("user_entity", user_entity);
         }
-        model.addAttribute("users", users);
+        model.addAttribute("groups", groups);
         model.addAttribute("user_entity", user_entity);
 
-        return "CRUD-user/users-list";
+        return "CRUD-group/groups-list";
     }
 
     @GetMapping("/search")
     public String userSearch(@RequestParam(value = "search") String query, Model model){
         if (query.isEmpty()){
-            return "redirect:/users";
+            return "redirect:/groups";
         }
-        List<GroupDTO> users = userService.searchUsers(query);
-        model.addAttribute("users", users);
-        return "CRUD-user/users-list";
+        List<GroupDTO> groups = groupService.searchGroups(query);
+        model.addAttribute("groups", groups);
+        return "CRUD-group/groups-list";
     }
 
     //insert
 
     @GetMapping("/insert")
     public String showInsertForm(Model model){
-        Group user = new Group();
-        model.addAttribute("user", user);
-        return "CRUD-user/insert";
+        Group group = new Group();
+        model.addAttribute("group", group);
+        return "CRUD-group/insert";
     }
 
     @PostMapping("/insert")
-    public String insert(@Valid @ModelAttribute("user") GroupDTO userDto, BindingResult result, 
+    public String insert(@Valid @ModelAttribute("group") GroupDTO userDto, BindingResult result, 
                                 Model model, RedirectAttributes redirect){
         if(result.hasErrors()){
-            model.addAttribute("user", userDto);
-            return "CRUD-user/insert";
+            model.addAttribute("group", userDto);
+            return "CRUD-group/insert";
         }
-        userService.save(userDto);
+        groupService.save(userDto);
         redirect.addFlashAttribute("cond", true);
         redirect.addFlashAttribute("status", "success");
-        redirect.addFlashAttribute("message", "User "+ userDto.getName() +" inserted successfully.");
-        return "redirect:/users";
+        redirect.addFlashAttribute("message", "Group "+ userDto.getName() +" inserted successfully.");
+        return "redirect:/groups";
     }
     
     //edit
 
-    @GetMapping("/user/edit/{userId}")
+    @GetMapping("/group/edit/{userId}")
     public String getInformation(@PathVariable("userId") long userId, Model model){
-        GroupDTO user = userService.findUserById(userId);
-        created_on = user.getCreatedOn();
-        model.addAttribute("user", user);
-        return "CRUD-user/edit";
+        GroupDTO group = groupService.findUserById(userId);
+        created_on = group.getCreatedOn();
+        model.addAttribute("group", group);
+        return "CRUD-group/edit";
     }
 
-    @PostMapping("/user/edit/{userId}")
+    @PostMapping("/group/edit/{userId}")
     public String updateUser(@PathVariable("userId") long userId, 
-                             @Valid @ModelAttribute("user") GroupDTO userDto,
+                             @Valid @ModelAttribute("group") GroupDTO userDto,
                              BindingResult result, Model model, RedirectAttributes redirect){
         if(result.hasErrors()){
-            return "CRUD-user/edit";
+            return "CRUD-group/edit";
         }
         userDto.setId(userId);
         userDto.setCreatedOn(created_on);
         userDto.setUpdatedOn(LocalDateTime.now());
-        userService.updateUser(userDto);
+        groupService.updateUser(userDto);
         redirect.addFlashAttribute("cond", true);
         redirect.addFlashAttribute("status", "warning");
-        redirect.addFlashAttribute("message", "User "+ userDto.getName() +" updated successfully.");
-        return "redirect:/users";
+        redirect.addFlashAttribute("message", "Group "+ userDto.getName() +" updated successfully.");
+        return "redirect:/groups";
     }
 
     //delete
 
-    @GetMapping("/user/delete/{userId}")
+    @GetMapping("/group/delete/{userId}")
     public String deleteUser(@PathVariable("userId") long userId, RedirectAttributes redirectatts){
-        String name = userService.delete(userId);
+        String name = groupService.delete(userId);
         redirectatts.addFlashAttribute("cond", true);
         redirectatts.addFlashAttribute("status", "warning");
-        redirectatts.addFlashAttribute("message", "User "+ name +" deleted successfully.");
-        return "redirect:/users";
+        redirectatts.addFlashAttribute("message", "Group "+ name +" deleted successfully.");
+        return "redirect:/groups";
     }
 
 

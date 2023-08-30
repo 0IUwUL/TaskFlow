@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <form method="post" role="form" th:action = "@{/insert}" th:object = "${user}">
+        <form method="post" role="form" th:action = "@{/insert}" th:object = "${group}">
             <input type="hidden" id="id" name="id" field="*{id}"/>
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
@@ -25,7 +25,7 @@
                 <p th:if="${#fields.hasErrors('address')}" class="text-danger" th:errors="*{address}"></p>
             </div>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
-            <a type="button" th:href="@{/users}" class="btn btn-secondary">Close</a>
+            <a type="button" th:href="@{/groups}" class="btn btn-secondary">Close</a>
             <button type="submit" class="btn btn-success">Insert <i class="bi bi-plus-circle"></i></button>
         </div>
         

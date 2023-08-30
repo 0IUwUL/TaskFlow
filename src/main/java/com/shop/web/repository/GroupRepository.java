@@ -19,5 +19,5 @@ public interface GroupRepository extends JpaRepository<Group, Long>{
     Group save(GroupDTO userDto);
     List<Group> findAllByOrderById();
     @Query("SELECT g from Group g WHERE g.name LIKE CONCAT('%', :query, '%')")
-    List<Group> searchUsers(String query);
+    List<Group> searchGroups(String query);
 }

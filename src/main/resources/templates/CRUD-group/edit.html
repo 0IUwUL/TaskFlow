@@ -11,22 +11,22 @@
                 <h1>Edit Form</h1>
             </div>
         </div>
-        <form method="post" role="form" th:action = "@{/user/edit/{userId}(userId=${user.id})}" th:object = "${user}">
-            <input type="hidden" id="id" name="id" field="*{id}" th:value="${user.id}"/>
+        <form method="post" role="form" th:action = "@{/group/edit/{userId}(userId=${group.id})}" th:object = "${group}">
+            <input type="hidden" id="id" name="id" field="*{id}" th:value="${group.id}"/>
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name = "name" field="*{name}" th:value="${user.name}" th:classappend="${#fields.hasErrors('name')}? fieldError" />
+                    <input type="text" class="form-control" id="name" name = "name" field="*{name}" th:value="${group.name}" th:classappend="${#fields.hasErrors('name')}? fieldError" />
                     <p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
                     <p th:if="not ${#fields.hasErrors('name')}" class="text-success">Looks good <i class="bi bi-hand-thumbs-up-fill"></i></p>
                 </div>
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name = "address" field="*{address}" th:value="${user.address}" th:classappend="${#fields.hasErrors('address')}? fieldError" />
+                    <input type="text" class="form-control" id="address" name = "address" field="*{address}" th:value="${group.address}" th:classappend="${#fields.hasErrors('address')}? fieldError" />
                     <p th:if="${#fields.hasErrors('address')}" class="text-danger" th:errors="*{address}"></p>
                     <p th:if="not ${#fields.hasErrors('address')}" class="text-success">Looks good <i class="bi bi-hand-thumbs-up-fill"></i></p>
                 </div>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
-                    <a type="button" th:href="@{/users}" class="btn btn-secondary">Close</a>
+                    <a type="button" th:href="@{/groups}" class="btn btn-secondary">Close</a>
                     <button type="submit" class="btn btn-success">Edit <i class="bi bi-pencil-square"></i></button>
                 </div>
         </form>

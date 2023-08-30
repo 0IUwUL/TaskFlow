@@ -11,5 +11,5 @@ public interface GroupService {
     GroupDTO findUserById(long userId);
     void updateUser(GroupDTO userDto);
     String delete(long userId);
-    List<GroupDTO> searchUsers(String query);
+    List<GroupDTO> searchGroups(String query);
 }

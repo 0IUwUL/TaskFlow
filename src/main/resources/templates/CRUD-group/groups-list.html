@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col">
                 <table class="table table-dark table-borderless caption-top rounded overflow-hidden">
-                <caption>List of users</caption>
+                <caption>List of groups</caption>
                     <thead class="table-light">
                         <tr>
                             <th>#</th>
@@ -38,34 +38,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="user: ${users}" class="align-middle">
-                            <th scope = "row" th:text = "${user.id}" class="data"></th>
-                            <td class="data" th:text = "${user.name}"></td>
-                            <td class="data" th:text = "${user.address}"></td>
-                            <td class="data" th:text = "${user.createdOn}"></td>
-                            <td class="data" th:text = "${user.updatedOn}"></td>
-                            <th:block th:if="${user_entity.id} == ${user.created_by.id}">
+                        <tr th:each="group: ${groups}" class="align-middle">
+                            <th scope = "row" th:text = "${group.id}" class="data"></th>
+                            <td class="data" th:text = "${group.name}"></td>
+                            <td class="data" th:text = "${group.address}"></td>
+                            <td class="data" th:text = "${group.createdOn}"></td>
+                            <td class="data" th:text = "${group.updatedOn}"></td>
+                            <th:block th:if="${user_entity.id} == ${group.created_by.id}">
                                 <td>
-                                    <a class="btn" type="button" th:href="@{/user/edit/{userId}(userId=${user.id})}">
+                                    <a class="btn" type="button" th:href="@{/group/edit/{userId}(userId=${group.id})}">
                                         <i class="bi bi-pencil-fill text-warning h3"></i>
                                     </a>
                                 </td>
                                 <td>
                                     <a class="btn" 
-                                    th:href = "@{/user/delete/{userId}(userId = ${user.id})}"
+                                    th:href = "@{/group/delete/{userId}(userId = ${group.id})}"
                                     type="button">
                                         <i class="bi bi-x-circle text-danger h3"></i>
                                     </a>
                                 </td>
                                 <td>
                                     <a class="btn" 
-                                    th:href = "@{/task/{userId}(userId = ${user.id})}"
+                                    th:href = "@{/task/{userId}(userId = ${group.id})}"
                                     type="button">
                                     <i class="bi bi-file-plus-fill text-info h3"></i>
                                     </a>
                                 </td>
                             </th:block>
-                            <th:block th:unless="${user_entity.id} == ${user.created_by.id}">
+                            <th:block th:unless="${user_entity.id} == ${group.created_by.id}">
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -74,16 +74,6 @@
                     </tbody>
                 </table>
             </div>
-    </div>
-
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div class="toast" th:classappend="${name}? show" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header bg-danger text-white">
-            <strong class="me-auto">Notice</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">User "<span th:text ="${name}" class="inline"></span>" has been deleted.</div>
-        </div>
     </div>
     
 </body>

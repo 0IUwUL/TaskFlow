@@ -31,45 +31,45 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<GroupDTO> findallUsers() {
         List<Group> users = userRepo.findAllByOrderById();
-        return users.stream().map((user) -> mapToUserDto(user)).collect(Collectors.toList());
+        return users.stream().map((group) -> mapToUserDto(group)).collect(Collectors.toList());
     }
 
     @Override
     public Group save(GroupDTO userDTO) {
         String username = SecurityUtil.getSessionUser();
         UserEntity user_entity = userEntityRepo.findByUsername(username);
-        Group user = mapToUser(userDTO);
-        user.setCreated_by(user_entity);
-        return userRepo.save(user);
+        Group group = mapToUser(userDTO);
+        group.setCreated_by(user_entity);
+        return userRepo.save(group);
     }
 
     @Override
     public GroupDTO findUserById(long userId) {
-        Group user = userRepo.findById(userId).get();
+        Group group = userRepo.findById(userId).get();
 
-        return mapToUserDto(user);
+        return mapToUserDto(group);
     }
 
     @Override
     public void updateUser(GroupDTO userDto) {
         String username = SecurityUtil.getSessionUser();
         UserEntity user_entity = userEntityRepo.findByUsername(username);
-        Group user = mapToUser(userDto);
-        user.setCreated_by(user_entity);
-        userRepo.save(user);
+        Group group = mapToUser(userDto);
+        group.setCreated_by(user_entity);
+        userRepo.save(group);
     }
 
     @Override
     public String delete(long userId) {
-        Group user = userRepo.findById(userId).get();
+        Group group = userRepo.findById(userId).get();
         userRepo.deleteById(userId);
-        return user.getName();
+        return group.getName();
     }
 
     @Override
-    public List<GroupDTO> searchUsers(String query) {
-        List<Group> users = userRepo.searchUsers(query);
-        return users.stream().map(user -> mapToUserDto(user)).collect(Collectors.toList());
+    public List<GroupDTO> searchGroups(String query) {
+        List<Group> users = userRepo.searchGroups(query);
+        return users.stream().map(group -> mapToUserDto(group)).collect(Collectors.toList());
     }
     
 }
