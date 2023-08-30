@@ -2,14 +2,14 @@ package com.shop.web.mapper;
 
 import java.util.stream.Collectors;
 
-import com.shop.web.dto.UserDTO;
-import com.shop.web.models.User;
+import com.shop.web.dto.GroupDTO;
+import com.shop.web.models.Group;
 
 import static com.shop.web.mapper.TaskMapper.maptoTaskDTO;;
 
-public class UserMapper {
-    public static User mapToUser(UserDTO user) {
-        User userDto = User.builder()
+public class GroupMapper {
+    public static Group mapToUser(GroupDTO user) {
+        Group userDto = Group.builder()
                         .id(user.getId())
                         .name(user.getName())
                         .address(user.getAddress())
@@ -20,8 +20,8 @@ public class UserMapper {
         return userDto;
     }
 
-    public static UserDTO mapToUserDto(User user){
-        UserDTO userDto = UserDTO.builder()
+    public static GroupDTO mapToUserDto(Group user){
+        GroupDTO userDto = GroupDTO.builder()
                             .id(user.getId())
                             .name(user.getName())
                             .address(user.getAddress())

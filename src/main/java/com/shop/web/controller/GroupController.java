@@ -14,23 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.shop.web.dto.UserDTO;
-import com.shop.web.models.User;
+import com.shop.web.dto.GroupDTO;
+import com.shop.web.models.Group;
 import com.shop.web.models.UserEntity;
 import com.shop.web.security.SecurityUtil;
 import com.shop.web.service.UserEntityService;
-import com.shop.web.service.UserService;
+import com.shop.web.service.GroupService;
 
 import jakarta.validation.Valid;
 
 @Controller
 
-public class UserController {
-    private UserService userService;
+public class GroupController {
+    private GroupService userService;
     private LocalDateTime created_on;
     private UserEntityService userEntityService;
 
-    public UserController(UserService userService, UserEntityService userEntityService) {
+    public GroupController(GroupService userService, UserEntityService userEntityService) {
         this.userService = userService;
         this.userEntityService = userEntityService;
     }
@@ -39,7 +39,7 @@ public class UserController {
     @GetMapping("/users")
     public String listUsers(Model model){
         UserEntity user_entity = new UserEntity();
-        List<UserDTO> users = userService.findallUsers();
+        List<GroupDTO> users = userService.findallUsers();
         String name = SecurityUtil.getSessionUser();
         if(name!=null){
             user_entity = userEntityService.findByUsername(name);
@@ -56,7 +56,7 @@ public class UserController {
         if (query.isEmpty()){
             return "redirect:/users";
         }
-        List<UserDTO> users = userService.searchUsers(query);
+        List<GroupDTO> users = userService.searchUsers(query);
         model.addAttribute("users", users);
         return "CRUD-user/users-list";
     }
@@ -65,13 +65,13 @@ public class UserController {
 
     @GetMapping("/insert")
     public String showInsertForm(Model model){
-        User user = new User();
+        Group user = new Group();
         model.addAttribute("user", user);
         return "CRUD-user/insert";
     }
 
     @PostMapping("/insert")
-    public String insert(@Valid @ModelAttribute("user") UserDTO userDto, BindingResult result, 
+    public String insert(@Valid @ModelAttribute("user") GroupDTO userDto, BindingResult result, 
                                 Model model, RedirectAttributes redirect){
         if(result.hasErrors()){
             model.addAttribute("user", userDto);
@@ -88,7 +88,7 @@ public class UserController {
 
     @GetMapping("/user/edit/{userId}")
     public String getInformation(@PathVariable("userId") long userId, Model model){
-        UserDTO user = userService.findUserById(userId);
+        GroupDTO user = userService.findUserById(userId);
         created_on = user.getCreatedOn();
         model.addAttribute("user", user);
         return "CRUD-user/edit";
@@ -96,7 +96,7 @@ public class UserController {
 
     @PostMapping("/user/edit/{userId}")
     public String updateUser(@PathVariable("userId") long userId, 
-                             @Valid @ModelAttribute("user") UserDTO userDto,
+                             @Valid @ModelAttribute("user") GroupDTO userDto,
                              BindingResult result, Model model, RedirectAttributes redirect){
         if(result.hasErrors()){
             return "CRUD-user/edit";

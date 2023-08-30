@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 
 import com.shop.web.dto.TaskDTO;
 import com.shop.web.models.Task;
-import com.shop.web.models.User;
+import com.shop.web.models.Group;
 import com.shop.web.repository.TaskRepository;
-import com.shop.web.repository.UserRepository;
+import com.shop.web.repository.GroupRepository;
 import com.shop.web.service.TaskService;
 
 import jakarta.validation.Valid;
@@ -21,15 +21,15 @@ import java.util.stream.Collectors;
 public class TaskServiceImp implements TaskService {
 
     private TaskRepository taskRepo;
-    private UserRepository userRepo;
-    public TaskServiceImp(TaskRepository taskRepo, UserRepository userRepo) {
+    private GroupRepository userRepo;
+    public TaskServiceImp(TaskRepository taskRepo, GroupRepository userRepo) {
         this.taskRepo = taskRepo;
         this.userRepo = userRepo;
     }
 
     @Override
     public void createTask(Long userId, TaskDTO taskDTO) {
-        User user = userRepo.findById(userId).get();
+        Group user = userRepo.findById(userId).get();
         Task task = maptoTask(taskDTO);
         task.setUser(user);
         taskRepo.save(task);

@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Builder
 
-public class UserDTO {
+public class GroupDTO {
     private Long id;
     @NotEmpty(message="Name field should not be empty.")
     private String name;
