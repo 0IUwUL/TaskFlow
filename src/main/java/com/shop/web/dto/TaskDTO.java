@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class DetailsDTO {
+public class TaskDTO {
     private Long id;
     @NotEmpty(message="Title Field shall not be empty.")
     private String title;

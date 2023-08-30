@@ -47,6 +47,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @Builder.Default
-    private List<Details> todo = new ArrayList<>();
+    private List<Task> todo = new ArrayList<>();
 
 }

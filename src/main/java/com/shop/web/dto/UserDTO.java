@@ -21,5 +21,5 @@ public class UserDTO {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
     private UserEntity created_by;
-    private List<DetailsDTO> todo;
+    private List<TaskDTO> todo;
 }

@@ -1,11 +1,11 @@
 package com.shop.web.mapper;
 
-import com.shop.web.dto.DetailsDTO;
-import com.shop.web.models.Details;
+import com.shop.web.dto.TaskDTO;
+import com.shop.web.models.Task;
 
-public class DetailMapper {
-    public static Details maptoDetail(DetailsDTO detailsDTO){
-        return Details.builder()
+public class TaskMapper {
+    public static Task maptoDetail(TaskDTO detailsDTO){
+        return Task.builder()
                         .id(detailsDTO.getId())
                         .title(detailsDTO.getTitle())
                         .type(detailsDTO.getType())
@@ -16,8 +16,8 @@ public class DetailMapper {
                         .build();
     }
 
-    public static DetailsDTO maptoDetailDTO(Details details){
-        return DetailsDTO.builder()
+    public static TaskDTO maptoDetailDTO(Task details){
+        return TaskDTO.builder()
                         .id(details.getId())
                         .title(details.getTitle())
                         .type(details.getType())

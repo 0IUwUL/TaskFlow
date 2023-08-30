@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import com.shop.web.dto.UserDTO;
 import com.shop.web.models.User;
 
-import static com.shop.web.mapper.DetailMapper.maptoDetailDTO;;
+import static com.shop.web.mapper.TaskMapper.maptoDetailDTO;;
 
 public class UserMapper {
     public static User mapToUser(UserDTO user) {

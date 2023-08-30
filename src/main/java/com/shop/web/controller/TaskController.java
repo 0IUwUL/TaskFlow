@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shop.web.Status;
-import com.shop.web.dto.DetailsDTO;
-import com.shop.web.models.Details;
+import com.shop.web.dto.TaskDTO;
+import com.shop.web.models.Task;
 import com.shop.web.models.UserEntity;
 import com.shop.web.security.SecurityUtil;
-import com.shop.web.service.DetailService;
+import com.shop.web.service.TaskService;
 import com.shop.web.service.UserEntityService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,8 +28,8 @@ import jakarta.validation.Valid;
 
 @Controller
 
-public class DetailController {
-    private DetailService detailService;
+public class TaskController {
+    private TaskService detailService;
     private static final Map <Status, String> mapStatuswithString = new LinkedHashMap <>();
     private LocalDateTime created_on;
     private UserEntityService userEntityService;
@@ -39,7 +39,7 @@ public class DetailController {
         mapStatuswithString.put(Status.INPROGRESS, "In Progress");
     }
 
-    public DetailController(DetailService detailService, UserEntityService userEntityService) {
+    public TaskController(TaskService detailService, UserEntityService userEntityService) {
         this.detailService = detailService;
         this.userEntityService = userEntityService;
     }
@@ -48,7 +48,7 @@ public class DetailController {
     @GetMapping("/detail")
     public String visitAllDetails(Model model, HttpSession session){
         UserEntity user_entity = new UserEntity();
-        List<DetailsDTO> tasks = detailService.findallTasks();
+        List<TaskDTO> tasks = detailService.findallTasks();
         String name = SecurityUtil.getSessionUser();
         if(name!=null){
             user_entity = userEntityService.findByUsername(name);
@@ -68,7 +68,7 @@ public class DetailController {
     public String visitDetail(@PathVariable("userId") Long userId, Model model, HttpSession session){
         UserEntity user_entity = new UserEntity();
         session.setAttribute("lastVisit", "/detail/"+userId);
-        List<DetailsDTO> tasks = detailService.findDetailByUser(userId);
+        List<TaskDTO> tasks = detailService.findDetailByUser(userId);
         String name = SecurityUtil.getSessionUser();
         if(name!=null){
             user_entity = userEntityService.findByUsername(name);
@@ -86,7 +86,7 @@ public class DetailController {
     //display input form
     @GetMapping("/detail/{userId}/new")
     public String createDetail(@PathVariable("userId") Long userId, Model model){
-        Details detail = new Details();
+        Task detail = new Task();
         model.addAttribute("userId", userId);
         model.addAttribute("detail", detail);
 
@@ -96,7 +96,7 @@ public class DetailController {
 
     //receive insert
     @PostMapping("/insert_detail/{userId}")
-    public String insert(@PathVariable("userId") long userId, @Valid @ModelAttribute("detail") DetailsDTO detailDTO, 
+    public String insert(@PathVariable("userId") long userId, @Valid @ModelAttribute("detail") TaskDTO detailDTO, 
                                         BindingResult result, Model model, RedirectAttributes redirectatts){
         if(result.hasErrors()){
             model.addAttribute("detail", detailDTO);
@@ -113,7 +113,7 @@ public class DetailController {
     //display edit form
     @GetMapping("/detail/{detailId}/edit")
     public String editDetail(@PathVariable("detailId") Long detailId, Model model){
-        DetailsDTO detailsDTO = detailService.findById(detailId);
+        TaskDTO detailsDTO = detailService.findById(detailId);
         if(detailsDTO != null)
             created_on = detailsDTO.getCreatedOn();
         model.addAttribute("detail", detailsDTO);
@@ -124,7 +124,7 @@ public class DetailController {
 
     @PostMapping("/edit_detail/{detailId}")
     public String updateUser(@PathVariable("detailId") long detailId, 
-                             @Valid @ModelAttribute("detail") DetailsDTO detailDto,
+                             @Valid @ModelAttribute("detail") TaskDTO detailDto,
                              BindingResult result, Model model,
                              HttpSession session, RedirectAttributes redirectatts){
         if(result.hasErrors()){
@@ -132,7 +132,7 @@ public class DetailController {
             model.addAttribute("status_task", mapStatuswithString);
             return "CRUD-detail/edit";
         }
-        DetailsDTO detail_user = detailService.findById(detailId);
+        TaskDTO detail_user = detailService.findById(detailId);
         detailDto.setId(detailId);
         detailDto.setUser(detail_user.getUser());
         detailDto.setCreatedOn(created_on);

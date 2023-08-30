@@ -2,48 +2,48 @@ package com.shop.web.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.shop.web.dto.DetailsDTO;
-import com.shop.web.models.Details;
+import com.shop.web.dto.TaskDTO;
+import com.shop.web.models.Task;
 import com.shop.web.models.User;
-import com.shop.web.repository.DetailsRepository;
+import com.shop.web.repository.TaskRepository;
 import com.shop.web.repository.UserRepository;
-import com.shop.web.service.DetailService;
+import com.shop.web.service.TaskService;
 
 import jakarta.validation.Valid;
 
-import static com.shop.web.mapper.DetailMapper.maptoDetail;
-import static com.shop.web.mapper.DetailMapper.maptoDetailDTO;
+import static com.shop.web.mapper.TaskMapper.maptoDetail;
+import static com.shop.web.mapper.TaskMapper.maptoDetailDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class DetailServiceImp implements DetailService {
+public class TaskServiceImp implements TaskService {
 
-    private DetailsRepository detailRepo;
+    private TaskRepository detailRepo;
     private UserRepository userRepo;
-    public DetailServiceImp(DetailsRepository detailRepo, UserRepository userRepo) {
+    public TaskServiceImp(TaskRepository detailRepo, UserRepository userRepo) {
         this.detailRepo = detailRepo;
         this.userRepo = userRepo;
     }
 
     @Override
-    public void createDetail(Long userId, DetailsDTO detailDTO) {
+    public void createDetail(Long userId, TaskDTO detailDTO) {
         User user = userRepo.findById(userId).get();
-        Details detail = maptoDetail(detailDTO);
+        Task detail = maptoDetail(detailDTO);
         detail.setUser(user);
         detailRepo.save(detail);
     }
 
     @Override
-    public List<DetailsDTO> findallTasks() {
-        List<Details> tasks = detailRepo.findAllByOrderById();
+    public List<TaskDTO> findallTasks() {
+        List<Task> tasks = detailRepo.findAllByOrderById();
         return tasks.stream().map((task) -> maptoDetailDTO(task)).collect(Collectors.toList());
     }
 
     @Override
-    public List<DetailsDTO> findDetailByUser(Long userId) {
-        List<Details> details = detailRepo.findByUserId(userId);
+    public List<TaskDTO> findDetailByUser(Long userId) {
+        List<Task> details = detailRepo.findByUserId(userId);
         if (details.isEmpty()) {
             return null;
         }
@@ -52,15 +52,15 @@ public class DetailServiceImp implements DetailService {
     }
 
     @Override
-    public void updateDetail(@Valid DetailsDTO detailDto) {
-        Details details = maptoDetail(detailDto);
+    public void updateDetail(@Valid TaskDTO detailDto) {
+        Task details = maptoDetail(detailDto);
 
         detailRepo.save(details);
     }
 
     @Override
-    public DetailsDTO findById(Long detailId) {
-        Details details = detailRepo.findById(detailId).get();
+    public TaskDTO findById(Long detailId) {
+        Task details = detailRepo.findById(detailId).get();
         return maptoDetailDTO(details);
     }
 
