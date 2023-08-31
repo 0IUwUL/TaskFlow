@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 
 //allows data taken from database to object
 @Entity
-@Table(name = "users")
+@Table(name = "groups")
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +45,7 @@ public class Group {
     @JoinColumn(name="created_by", nullable = false) 
     private UserEntity created_by;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     @Builder.Default
     private List<Task> todo = new ArrayList<>();
 

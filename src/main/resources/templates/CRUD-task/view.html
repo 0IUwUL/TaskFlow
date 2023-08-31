@@ -7,15 +7,13 @@
 <body>
     <div layout:fragment = "body" class="container mt-5">
         <div class="row">
-            <th:block th:unless="${view_all}">
                 <div class="col">
                     <a type="button" class="btn btn-success" th:href = "@{/task/{userId}/new(userId=${userId})}">
                         Insert <i class="bi bi-plus-circle"></i>
                     </a>
                 </div>
-            </th:block>
-            <div class= "col" th:classappend="${view_all}? 'd-flex justify-content-end':''">
-                <form class="d-flex" role="search" th:classappend="${view_all}? 'col-6':''"  >
+            <div class= "col">
+                <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
@@ -43,6 +41,7 @@
                                 <tr class="align-middle"></tr>
                                     <td>No data</td>
                                     <td th:if="${view_all}"></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>

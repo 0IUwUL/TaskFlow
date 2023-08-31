@@ -38,6 +38,19 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <th:block th:if="${#lists.isEmpty(task)}">
+                            <tr class="align-middle"></tr>
+                                <td>No data</td>
+                                <td th:if="${view_all}"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </th:block>
                         <tr th:each="group: ${groups}" class="align-middle">
                             <th scope = "row" th:text = "${group.id}" class="data"></th>
                             <td class="data" th:text = "${group.name}"></td>
