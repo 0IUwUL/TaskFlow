@@ -13,6 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -35,7 +37,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String address;
+    private String description;
     @CreationTimestamp
     private LocalDateTime createdOn;
     @UpdateTimestamp
@@ -43,10 +45,17 @@ public class Group {
 
     @ManyToOne
     @JoinColumn(name="created_by", nullable = false) 
-    private UserEntity created_by;
+    private Users admin;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     @Builder.Default
     private List<Task> todo = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+        name = "group_users",
+        joinColumns = @JoinColumn(name = "group_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<Users> users;
 }

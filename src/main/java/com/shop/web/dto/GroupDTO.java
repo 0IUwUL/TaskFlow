@@ -3,7 +3,7 @@ package com.shop.web.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.shop.web.models.UserEntity;
+import com.shop.web.models.Users;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
@@ -16,10 +16,11 @@ public class GroupDTO {
     private Long id;
     @NotEmpty(message="Name field should not be empty.")
     private String name;
-    @NotEmpty(message="Address field should not be empty.")
-    private String address;
+    @NotEmpty(message="Description field should not be empty.")
+    private String description;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
-    private UserEntity created_by;
+    private Users admin;
     private List<TaskDTO> todo;
+    private List<Users> users;
 }

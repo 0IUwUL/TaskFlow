@@ -8,16 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.shop.web.dto.GroupDTO;
 import com.shop.web.models.Group;
+import com.shop.web.models.Users;
 
-
-/**
- * UserRepository
- */
 public interface GroupRepository extends JpaRepository<Group, Long>{
     //custom queries
     Optional<Group> findById(long id);
     Group save(GroupDTO userDto);
-    List<Group> findAllByOrderById();
     @Query("SELECT g from Group g WHERE g.name LIKE CONCAT('%', :query, '%')")
     List<Group> searchGroups(String query);
+    List<Group> findByAdminOrderById(Users user);
+    List<Group> findByUsersIdOrderById(Long id);
 }

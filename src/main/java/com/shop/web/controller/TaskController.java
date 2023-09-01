@@ -17,10 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shop.web.Status;
 import com.shop.web.dto.TaskDTO;
 import com.shop.web.models.Task;
-import com.shop.web.models.UserEntity;
+import com.shop.web.models.Users;
 import com.shop.web.security.SecurityUtil;
 import com.shop.web.service.TaskService;
-import com.shop.web.service.UserEntityService;
+import com.shop.web.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -32,29 +32,29 @@ public class TaskController {
     private TaskService taskService;
     private static final Map <Status, String> mapStatuswithString = new LinkedHashMap <>();
     private LocalDateTime created_on;
-    private UserEntityService userEntityService;
+    private UserService userService;
     static{
         mapStatuswithString.put(Status.TODO, "To Do");
         mapStatuswithString.put(Status.DONE, "Done");
         mapStatuswithString.put(Status.INPROGRESS, "In Progress");
     }
 
-    public TaskController(TaskService taskService, UserEntityService userEntityService) {
+    public TaskController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
-        this.userEntityService = userEntityService;
+        this.userService = userService;
     }
 
     //display all of tasks
     @GetMapping("/task")
     public String visitAllTasks(Model model, HttpSession session){
-        UserEntity user_entity = new UserEntity();
+        Users users = new Users();
         List<TaskDTO> tasks = taskService.findallTasks();
         String name = SecurityUtil.getSessionUser();
         if(name!=null){
-            user_entity = userEntityService.findByUsername(name);
-            model.addAttribute("user_entity", user_entity);
+            users = userService.findByUsername(name);
+            model.addAttribute("users", users);
         }
-        model.addAttribute("user_entity", user_entity);
+        model.addAttribute("users", users);
 
         session.setAttribute("lastVisit", "/task");
         model.addAttribute("task", tasks);
@@ -66,15 +66,15 @@ public class TaskController {
     //display list of tasks of user
     @GetMapping("/task/{userId}")
     public String visitTask(@PathVariable("userId") Long userId, Model model, HttpSession session){
-        UserEntity user_entity = new UserEntity();
+        Users users = new Users();
         session.setAttribute("lastVisit", "/task/"+userId);
         List<TaskDTO> tasks = taskService.findTaskByUser(userId);
         String name = SecurityUtil.getSessionUser();
         if(name!=null){
-            user_entity = userEntityService.findByUsername(name);
-            model.addAttribute("user_entity", user_entity);
+            users = userService.findByUsername(name);
+            model.addAttribute("users", users);
         }
-        model.addAttribute("user_entity", user_entity);
+        model.addAttribute("users", users);
 
         model.addAttribute("userId", userId);
         model.addAttribute("task", tasks);

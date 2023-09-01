@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shop.web.dto.RegistrationDTO;
-import com.shop.web.models.UserEntity;
-import com.shop.web.service.UserEntityService;
+import com.shop.web.models.Users;
+import com.shop.web.service.UserService;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class AuthController {
-    private UserEntityService userEntityService;
+    private UserService userService;
 
-    public AuthController(UserEntityService userEntityService) {
-        this.userEntityService = userEntityService;
+    public AuthController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -42,13 +42,13 @@ public class AuthController {
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") RegistrationDTO registrationDTO,
                                 BindingResult result, Model model, RedirectAttributes redirect){
-        UserEntity existingUsersEmail = userEntityService.findByEmail(registrationDTO.getEmail());
+        Users existingUsersEmail = userService.findByEmail(registrationDTO.getEmail());
         
         if (existingUsersEmail != null && existingUsersEmail.getEmail() != null && !existingUsersEmail.getEmail().isEmpty()){
             return "redirect:/register?fail";
         }
 
-        UserEntity existingUsersName = userEntityService.findByUsername(registrationDTO.getUsername());
+        Users existingUsersName = userService.findByUsername(registrationDTO.getUsername());
         if (existingUsersName != null && existingUsersName.getUsername() != null && !existingUsersName.getUsername().isEmpty()){
             return "redirect:/register?fail";
         }
@@ -56,7 +56,7 @@ public class AuthController {
             model.addAttribute("user", registrationDTO);
             return "auth/registration";
         }
-        userEntityService.saveUser(registrationDTO);
+        userService.saveUser(registrationDTO);
         redirect.addFlashAttribute("cond", true);
         redirect.addFlashAttribute("status", "success");
         redirect.addFlashAttribute("message", "Registered successfully");

@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity(name="users")
 
-public class UserEntity {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

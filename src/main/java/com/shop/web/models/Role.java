@@ -21,5 +21,5 @@ public class Role {
     private Long id;
     private String title;
     @ManyToMany(mappedBy = "roles")
-    private List<UserEntity> users = new ArrayList<>();
+    private List<Users> users = new ArrayList<>();
 }

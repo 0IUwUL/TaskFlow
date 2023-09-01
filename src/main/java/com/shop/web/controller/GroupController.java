@@ -16,9 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shop.web.dto.GroupDTO;
 import com.shop.web.models.Group;
-import com.shop.web.models.UserEntity;
+import com.shop.web.models.Users;
 import com.shop.web.security.SecurityUtil;
-import com.shop.web.service.UserEntityService;
+import com.shop.web.service.UserService;
 import com.shop.web.service.GroupService;
 
 import jakarta.validation.Valid;
@@ -28,36 +28,50 @@ import jakarta.validation.Valid;
 public class GroupController {
     private GroupService groupService;
     private LocalDateTime created_on;
-    private UserEntityService userEntityService;
+    private UserService userService;
 
-    public GroupController(GroupService groupService, UserEntityService userEntityService) {
+    public GroupController(GroupService groupService, UserService userService) {
         this.groupService = groupService;
-        this.userEntityService = userEntityService;
+        this.userService = userService;
     }
 
     //read
     @GetMapping("/groups")
-    public String listUsers(Model model){
-        UserEntity user_entity = new UserEntity();
-        List<GroupDTO> groups = groupService.findallUsers();
+    public String listGroups(Model model){
+        Users users = new Users();
         String name = SecurityUtil.getSessionUser();
         if(name!=null){
-            user_entity = userEntityService.findByUsername(name);
-            model.addAttribute("user_entity", user_entity);
+            users = userService.findByUsername(name);
+            model.addAttribute("users", users);
         }
-        model.addAttribute("groups", groups);
-        model.addAttribute("user_entity", user_entity);
-
+        List<GroupDTO> own_group = groupService.findallGroups(users);
+        List<GroupDTO> involve_group = groupService.findallInvolveGroups(users.getId());
+        model.addAttribute("own_group", own_group);
+        model.addAttribute("users", users);
+        model.addAttribute("involve_group", involve_group);
         return "CRUD-group/groups-list";
     }
 
     @GetMapping("/search")
-    public String userSearch(@RequestParam(value = "search") String query, Model model){
+    public String groupSearch(@RequestParam(value = "search") String query, Model model){
+        // Group groups = new Group();
+        Users users = new Users();
+        String name = SecurityUtil.getSessionUser();
+        if(name!=null){
+            users = userService.findByUsername(name);
+            model.addAttribute("users", users);
+        }
         if (query.isEmpty()){
             return "redirect:/groups";
         }
         List<GroupDTO> groups = groupService.searchGroups(query);
-        model.addAttribute("groups", groups);
+        for (GroupDTO groupDTO : groups) {
+            if(groupDTO.getAdmin().getId() == users.getId())
+                model.addAttribute("own_group", groups);
+            else
+                model.addAttribute("involve_group", groups);
+        }
+        model.addAttribute("users", users);
         return "CRUD-group/groups-list";
     }
 
@@ -95,19 +109,19 @@ public class GroupController {
     }
 
     @PostMapping("/group/edit/{userId}")
-    public String updateUser(@PathVariable("userId") long userId, 
-                             @Valid @ModelAttribute("group") GroupDTO userDto,
+    public String updateGroup(@PathVariable("userId") long userId, 
+                             @Valid @ModelAttribute("group") GroupDTO groupDTO,
                              BindingResult result, Model model, RedirectAttributes redirect){
         if(result.hasErrors()){
             return "CRUD-group/edit";
         }
-        userDto.setId(userId);
-        userDto.setCreatedOn(created_on);
-        userDto.setUpdatedOn(LocalDateTime.now());
-        groupService.updateUser(userDto);
+        groupDTO.setId(userId);
+        groupDTO.setCreatedOn(created_on);
+        groupDTO.setUpdatedOn(LocalDateTime.now());
+        groupService.updateGroup(groupDTO);
         redirect.addFlashAttribute("cond", true);
         redirect.addFlashAttribute("status", "warning");
-        redirect.addFlashAttribute("message", "Group "+ userDto.getName() +" updated successfully.");
+        redirect.addFlashAttribute("message", "Group "+ groupDTO.getName() +" updated successfully.");
         return "redirect:/groups";
     }
 

@@ -9,20 +9,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.shop.web.models.UserEntity;
-import com.shop.web.repository.UserEntityRepository;
+import com.shop.web.models.Users;
+import com.shop.web.repository.UserRepository;
 
 @Service
 public class CustomeUserDetails implements UserDetailsService{
-    private UserEntityRepository userEntityRepository;
+    private UserRepository userService;
 
-    public CustomeUserDetails(UserEntityRepository userEntityRepository) {
-        this.userEntityRepository = userEntityRepository;
+    public CustomeUserDetails(UserRepository userService) {
+        this.userService = userService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userEntityRepository.findFirstByUsername(username);
+        Users user = userService.findFirstByUsername(username);
 
         if(user != null){
             User authUser = new User(

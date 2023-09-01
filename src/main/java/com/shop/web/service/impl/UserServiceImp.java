@@ -7,42 +7,47 @@ import org.springframework.stereotype.Service;
 
 import com.shop.web.dto.RegistrationDTO;
 import com.shop.web.models.Role;
-import com.shop.web.models.UserEntity;
+import com.shop.web.models.Users;
 import com.shop.web.repository.RoleRepository;
-import com.shop.web.repository.UserEntityRepository;
-import com.shop.web.service.UserEntityService;
+import com.shop.web.repository.UserRepository;
+import com.shop.web.service.UserService;
 
 @Service
-public class UserEntitySericeImp implements UserEntityService {
-    private UserEntityRepository userEntityRepository;
+public class UserServiceImp implements UserService {
+    private UserRepository userRepo;
     private RoleRepository roleRepository;
     private PasswordEncoder encodePassword;
 
-    public UserEntitySericeImp(UserEntityRepository userEntityRepository, RoleRepository roleRepository, PasswordEncoder encodePassword) {
-        this.userEntityRepository = userEntityRepository;
+    public UserServiceImp(UserRepository userRepo, RoleRepository roleRepository, PasswordEncoder encodePassword) {
+        this.userRepo = userRepo;
         this.roleRepository = roleRepository;
         this.encodePassword = encodePassword;
     }
 
     @Override
     public void saveUser(RegistrationDTO registerDto) {
-        UserEntity user = new UserEntity();
+        Users user = new Users();
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
         user.setPassword(encodePassword.encode(registerDto.getPassword()));
         Role role = roleRepository.findByTitle("USER");
         user.setRoles(Arrays.asList(role));
-        userEntityRepository.save(user);
+        userRepo.save(user);
     }
 
     @Override
-    public UserEntity findByEmail(String email) {
-        return userEntityRepository.findByEmail(email);
+    public Users findByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 
     @Override
-    public UserEntity findByUsername(String username) {
-        return userEntityRepository.findByUsername(username);
+    public Users findByUsername(String username) {
+        return userRepo.findByUsername(username);
     }
-    
+
+    public void updateRole(Users user){
+        Role role = roleRepository.findByTitle("ADMIN");
+        user.setRoles(Arrays.asList(role));
+        userRepo.save(user);
+    }
 }

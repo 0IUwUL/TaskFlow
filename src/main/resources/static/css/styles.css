@@ -2,6 +2,13 @@
     margin: 0;
     padding: 0;
 }
+
+/* overall */
+@font-face {
+    font-family: all;
+    src: url('assets/fonts/Nunito.ttf');
+}
+
 /* title */
 @font-face {
     font-family: title;
@@ -23,16 +30,14 @@
     format('truetype'); 
  }
 
+ /* card header */
+ @font-face {
+    font-family: card-header;
+    src: url('assets/fonts/IBMMono.ttf');
+ }
+
 .breadcrumb-item+.breadcrumb-item::before {
     padding: .5em!important;
-}
-
-table tbody tr td.data{
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 nav{
@@ -45,7 +50,11 @@ h1.title{
 
 form{
     font-family: form;
-    color: whitesmoke;
+}
+
+h1.group-header{
+    font-family: card-header;
+    font-weight: 500;
 }
 
 .navbar-brand{
@@ -92,4 +101,9 @@ h1.title{
 
 .form label{
     font-weight: 700;
+    color: whitesmoke;
+}
+
+.col.insert-group{
+    min-height: 100rem;
 }

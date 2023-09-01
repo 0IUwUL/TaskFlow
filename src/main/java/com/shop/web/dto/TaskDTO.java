@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import com.shop.web.Status;
 import com.shop.web.models.Group;
-import com.shop.web.models.UserEntity;
+import com.shop.web.models.Users;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,5 +29,5 @@ public class TaskDTO {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
     private Group group;
-    private UserEntity user;
+    private Users user;
 }

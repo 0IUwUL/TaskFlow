@@ -20,9 +20,9 @@
                 <p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
             </div>
             <div class="mb-3">
-                <label for="address" class="form-label">Address</label>
-                <input type="text" class="form-control" id="address" name = "address" field = "*{address}"/>
-                <p th:if="${#fields.hasErrors('address')}" class="text-danger" th:errors="*{address}"></p>
+                <label for="description" class="form-label">Description</label>
+                <input type="text" class="form-control" id="description" name = "description" field = "*{description}"/>
+                <p th:if="${#fields.hasErrors('description')}" class="text-danger" th:errors="*{description}"></p>
             </div>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
             <a type="button" th:href="@{/groups}" class="btn btn-secondary">Close</a>
