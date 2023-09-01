@@ -13,7 +13,6 @@
             <form method="post" th:action = "@{/login}" role="form">
                 <div th:if="${param.error}" class="alert alert-danger">Invalid credentials.</div>
                 <div th:if="${param.fail}" class="alert alert-danger">You have been logged out.</div>
-                <input type="hidden" id="id" name="id" field="*{id}"/>
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" name = "username"/>

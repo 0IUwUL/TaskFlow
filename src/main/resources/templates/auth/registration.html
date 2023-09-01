@@ -11,7 +11,6 @@
         </div>
         <div class="row form p-3 mt-5 rounded">
             <form method="post" role="form" th:action = "@{/register}" th:object = "${user}">
-                <input type="hidden" id="id" name="id" field="*{id}"/>
                 <div th:if="${param.fail}" class="alert alert-danger">Username or email already exists</div>
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>

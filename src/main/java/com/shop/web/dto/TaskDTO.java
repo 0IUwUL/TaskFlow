@@ -3,7 +3,6 @@ package com.shop.web.dto;
 import java.time.LocalDateTime;
 
 import com.shop.web.Status;
-import com.shop.web.models.Group;
 import com.shop.web.models.Users;
 
 import jakarta.persistence.Column;
@@ -28,6 +27,5 @@ public class TaskDTO {
     private String description;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
-    private Group group;
     private Users user;
 }

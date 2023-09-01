@@ -13,7 +13,7 @@
         </div>
 
         <form method="post" role="form" th:action="@{/insert_task/{userId}(userId=${userId})}" th:object = "${task}">
-            <input type="hidden" id="id" name="id" field="*{id}"/>
+            <input type="hidden" id="id" name="id" th:field="*{id}"/>
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text"class="form-control" placeholder="Input Title of Task" id="title" name="title" th:field="*{title}"/>
