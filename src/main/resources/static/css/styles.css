@@ -52,9 +52,10 @@ form{
     font-family: form;
 }
 
-h1.group-header{
+.todo h3,
+.inprogress h3,
+.done h3{
     font-family: card-header;
-    font-weight: 500;
 }
 
 .navbar-brand{
@@ -106,4 +107,21 @@ h1.title{
 
 .col.insert-group{
     min-height: 100rem;
+}
+
+.todo .card-header{
+    background-color: rgb(168, 0, 22);
+}
+
+.inprogress .card-header{
+    background-color: rgb(199, 199, 0);
+}
+
+.done .card-header{
+    background-color: rgb(0, 95, 11);
+    
+}
+
+.card-footer a{
+    margin: 0 .5rem;
 }

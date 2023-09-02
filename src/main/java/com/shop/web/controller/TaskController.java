@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-// import com.shop.web.Status;
 import com.shop.web.dto.TaskDTO;
 import com.shop.web.models.Task;
 import com.shop.web.models.Type;
@@ -45,45 +44,49 @@ public class TaskController {
     //display all of tasks
     @GetMapping("/task")
     public String visitAllTasks(Model model, HttpSession session){
-        Users users = new Users();
-        List<TaskDTO> tasks = taskService.findallTasks();
-        String name = SecurityUtil.getSessionUser();
-        if(name!=null){
-            users = userService.findByUsername(name);
-            model.addAttribute("users", users);
-            model.addAttribute("userId", users.getId());
-        }
-        model.addAttribute("users", users);
-
-        types = typeService.getAllTypes();
+        List<TaskDTO> to_do = taskService.findToDo();
+        List<TaskDTO> in_progress = taskService.findInProgress();
+        List<TaskDTO> done = taskService.findDone();
         
-        session.setAttribute("lastVisit", "/task");
-        model.addAttribute("task", tasks);
+        types = typeService.getAllTypes();
+        model.addAttribute("to_do", to_do);
+        model.addAttribute("in_progress", in_progress);
+        model.addAttribute("done", done);
         model.addAttribute("view_all", true);
         model.addAttribute("status_task", types);
         return "CRUD-task/view";
     }
 
     //display input form
-    @GetMapping("/task/{userId}/new")
-    public String createTask(@PathVariable("userId") Long userId, Model model){
+    @GetMapping("/task/new")
+    public String createTask(Model model){
         Task task = new Task();
         types = typeService.getAllTypes();
-        model.addAttribute("userId", userId);
         model.addAttribute("task", task);
         model.addAttribute("status_task", types);
         return "CRUD-task/insert";
     }
 
     //receive insert
-    @PostMapping("/insert_task/{userId}")
-    public String insert(@PathVariable("userId") long userId, @Valid @ModelAttribute("task") TaskDTO taskDTO, 
-                                        BindingResult result, Model model, RedirectAttributes redirectatts){
+    @PostMapping("/insert_task")
+    public String insert(@Valid @ModelAttribute("task") TaskDTO taskDTO, 
+                        BindingResult result, Model model, RedirectAttributes redirectatts){
         if(result.hasErrors()){
+            types = typeService.getAllTypes();
+            model.addAttribute("status_task", types);
             model.addAttribute("task", taskDTO);
-            // model.addAttribute("status_task", mapStatuswithString);
             return "CRUD-task/insert";
         }
+        Users users = new Users();
+        String name = SecurityUtil.getSessionUser();
+        if(name == null){
+            return "error";
+        }
+        users = userService.findByUsername(name);
+        if(users == null){
+            return "error";
+        }
+        Long userId = users.getId();
         taskService.createTask(userId, taskDTO);
         redirectatts.addFlashAttribute("cond", true);
         redirectatts.addFlashAttribute("status", "success");
@@ -110,8 +113,9 @@ public class TaskController {
                              BindingResult result, Model model,
                              HttpSession session, RedirectAttributes redirectatts){
         if(result.hasErrors()){
+            types = typeService.getAllTypes();
+            model.addAttribute("status_task", types);
             model.addAttribute("task", taskDto);
-            // model.addAttribute("status_task", mapStatuswithString);
             return "CRUD-task/edit";
         }
         TaskDTO task_user = taskService.findById(taskId);

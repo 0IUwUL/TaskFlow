@@ -17,4 +17,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByUserId(Long userId);
     @Query("SELECT t from Task t WHERE t.title LIKE CONCAT('%', :query, '%')")
     List<Task> searchTask(String query);
+    List<Task> findAllByTypeId(int id);
 }

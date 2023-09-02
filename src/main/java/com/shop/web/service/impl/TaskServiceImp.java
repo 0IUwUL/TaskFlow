@@ -77,5 +77,23 @@ public class TaskServiceImp implements TaskService {
         taskRepo.deleteById(taskId);
         return title;
     }
+
+    @Override
+    public List<TaskDTO> findToDo() {
+        List<Task> tasks = taskRepo.findAllByTypeId(1);
+        return tasks.stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskDTO> findInProgress() {
+        List<Task> tasks = taskRepo.findAllByTypeId(2);
+        return tasks.stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskDTO> findDone() {
+        List<Task> tasks = taskRepo.findAllByTypeId(3);
+        return tasks.stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList());
+    }
     
 }

@@ -8,8 +8,8 @@
     <div layout:fragment = "body" class="container mt-5">
         <div class="row">
                 <div class="col">
-                    <a th:href="@{/groups}" class="btn btn-danger" title="Return">Return <i class="bi bi-box-arrow-in-left"></i></a>
-                    <a type="button" class="btn btn-success" th:href = "@{/task/{userId}/new(userId=${userId})}">
+                    <!-- <a th:href="@{/groups}" class="btn btn-danger" title="Return">Return <i class="bi bi-box-arrow-in-left"></i></a> -->
+                    <a type="button" class="btn btn-success" th:href = "@{/task/new}">
                         Insert <i class="bi bi-plus-circle"></i>
                     </a>
                 </div>
@@ -20,7 +20,7 @@
                 </form>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col d-flex justify-content-center">
                 <table class="table table-dark table-borderless caption-top rounded overflow-hidden">
                     <caption>List of tasks</caption>
@@ -65,14 +65,72 @@
                         </tbody>
                 </table>
             </div>
-        </div>
-        <div class="toast-container position-fixed bottom-0 end-0 p-3">
-            <div class="toast" th:classappend="${title}? show" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header bg-danger text-white">
-                <strong class="me-auto">Notice</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div> -->
+        <div class="container my-5">
+            <div class="row row-cols-1 row-cols-sm-3 g-3 justify-content-around">
+              <div class="col todo">
+                <h3 class="text-center">To Do</h3>
+                <div class="row gy-3 flex-column">
+                    <th:block th:each="task: ${to_do}">
+                        <div class="col">
+                            <div class="card border border-danger border shadow">
+                                <div class="card-header text-white">
+                                    <h5 class="card-title text-center" th:text="${task.title}"></h5>
+                                </div>
+                                <div class="card-body border border-danger">
+                                    <p class="card-text" th:text="${task.description}"></p>
+                                </div>
+                                <div class="card-footer bg-dark d-flex justify-content-end">
+                                        <a type="button" th:href="@{/task/{taskId}/edit(taskId=${task.id})}" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a>
+                                        <a type="button" th:href="@{/task/{taskId}/delete(taskId=${task.id})}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a>  
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
                 </div>
-                <div class="toast-body">Task "<span th:text ="${title}" class="inline"></span>" has been deleted.</div>
+              </div>
+              <div class="col inprogress">
+                <h3 class="text-center">In Progress</h3>
+                <div class="row gy-3 flex-column">
+                    <th:block th:each="task: ${in_progress}">
+                        <div class="col">
+                            <div class="card border border-warning border shadow">
+                                <div class="card-header text-white">
+                                    <h5 class="card-title text-center" th:text="${task.title}"></h5>
+                                </div>
+                                <div class="card-body border border-warning">
+                                    <p class="card-text" th:text="${task.description}"></p>
+                                </div>
+                                <div class="card-footer bg-dark d-flex justify-content-end">
+                                        <a type="button" th:href="@{/task/{taskId}/edit(taskId=${task.id})}" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a>
+                                        <a type="button" th:href="@{/task/{taskId}/delete(taskId=${task.id})}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a>  
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+              </div>
+              <div class="col done">
+                <h3 class="text-center">Done</h3>
+                <div class="row flex-column gy-3">
+                    <th:block th:each="task: ${done}">
+                        <div class="col">
+                            <div class="card border border-success border shadow">
+                                <div class="card-header text-white">
+                                    <h5 class="card-title text-center" th:text="${task.title}"></h5>
+                                </div>
+                                <div class="card-body border border-success">
+                                    <p class="card-text" th:text="${task.description}"></p>
+                                </div>
+                                <div class="card-footer bg-dark d-flex justify-content-end">
+                                        <a type="button" th:href="@{/task/{taskId}/edit(taskId=${task.id})}" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a>
+                                        <a type="button" th:href="@{/task/{taskId}/delete(taskId=${task.id})}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a>  
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+              </div>
             </div>
         </div>
     </div>

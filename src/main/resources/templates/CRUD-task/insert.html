@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <form method="post" role="form" th:action="@{/insert_task/{userId}(userId=${userId})}" th:object = "${task}">
+        <form method="post" role="form" th:action="@{/insert_task}" th:object = "${task}">
             <input type="hidden" id="id" name="id" th:field="*{id}"/>
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -32,7 +32,7 @@
             </select>
         
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-5">
-            <a type="button" th:href="@{/task/{userId}(userId=${userId})}" class="btn btn-secondary">Close</a>
+            <a type="button" th:href="@{/task}" class="btn btn-secondary">Close</a>
             <button type="submit" class="btn btn-success">Insert <i class="bi bi-plus-circle"></i></button>
         </div>
         
