@@ -14,64 +14,18 @@
                     </a>
                 </div>
             <div class= "col">
-                <form class="d-flex" role="search">
+                <form class="d-flex" role="search" th:action="@{/task/search}">
                     <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
         </div>
-        <!-- <div class="row">
-            <div class="col d-flex justify-content-center">
-                <table class="table table-dark table-borderless caption-top rounded overflow-hidden">
-                    <caption>List of tasks</caption>
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th th:if="${view_all}">Username</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Type</th>
-                                <th>Created On</th>
-                                <th>Updated On</th>
-                                <th>Actions</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <th:block th:if="${#lists.isEmpty(task)}">
-                                <tr class="align-middle"></tr>
-                                    <td>No data</td>
-                                    <td th:if="${view_all}"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </th:block>
-                            <tr class="align-middle" th:each="task: ${task}">
-                                    <th scope = "row" th:text = "${task.id}" class="data"></th>
-                                    <td th:if="${view_all}" th:text="${users.username}"></td>
-                                    <td class="data" th:text = "${task.title}"></td>
-                                    <td class="data" th:text = "${task.description}"></td>
-                                    <td class="data" th:text = "${task.type.title}"></td>
-                                    <td class="data" th:text = "${task.createdOn}"></td>
-                                    <td class="data" th:text = "${task.updatedOn}"></td>
-                                    <td class="data"><a type="button" th:href="@{/task/{taskId}/edit(taskId=${task.id})}" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a></td>
-                                    <td class="data"><a type="button" th:href="@{/task/{taskId}/delete(taskId=${task.id})}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a></td>
-                            </tr>
-                        </tbody>
-                </table>
-            </div>
-        </div> -->
         <div class="container my-5">
             <div class="row row-cols-1 row-cols-sm-3 g-3 justify-content-around">
               <div class="col todo">
                 <h3 class="text-center">To Do</h3>
                 <div class="row gy-3 flex-column">
-                    <th:block th:each="task: ${to_do}">
+                    <th:block th:each="task: ${tasks}" th:if="${task.type.title == 'To Do'}">
                         <div class="col">
                             <div class="card border border-danger border shadow">
                                 <div class="card-header text-white">
@@ -92,7 +46,7 @@
               <div class="col inprogress">
                 <h3 class="text-center">In Progress</h3>
                 <div class="row gy-3 flex-column">
-                    <th:block th:each="task: ${in_progress}">
+                    <th:block th:each="task: ${tasks}" th:if="${task.type.title == 'In Progress'}">
                         <div class="col">
                             <div class="card border border-warning border shadow">
                                 <div class="card-header text-white">
@@ -113,7 +67,7 @@
               <div class="col done">
                 <h3 class="text-center">Done</h3>
                 <div class="row flex-column gy-3">
-                    <th:block th:each="task: ${done}">
+                    <th:block th:each="task: ${tasks}" th:if="${task.type.title == 'Done'}">
                         <div class="col">
                             <div class="card border border-success border shadow">
                                 <div class="card-header text-white">

@@ -49,16 +49,6 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
-    public List<TaskDTO> findTaskByUser(Long userId) {
-        List<Task> tasks = taskRepo.findByUserId(userId);
-        if (tasks.isEmpty()) {
-            return null;
-        }
-        return tasks.stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList());
-        
-    }
-
-    @Override
     public void updateTask(@Valid TaskDTO taskDto) {
         Task tasks = maptoTask(taskDto);
 
@@ -79,20 +69,8 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
-    public List<TaskDTO> findToDo() {
-        List<Task> tasks = taskRepo.findAllByTypeId(1);
-        return tasks.stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<TaskDTO> findInProgress() {
-        List<Task> tasks = taskRepo.findAllByTypeId(2);
-        return tasks.stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<TaskDTO> findDone() {
-        List<Task> tasks = taskRepo.findAllByTypeId(3);
+    public List<TaskDTO> searchTask(String query) {
+        List<Task> tasks = taskRepo.searchTask(query);
         return tasks.stream().map((task) -> maptoTaskDTO(task)).collect(Collectors.toList());
     }
     

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shop.web.dto.TaskDTO;
@@ -44,16 +45,34 @@ public class TaskController {
     //display all of tasks
     @GetMapping("/task")
     public String visitAllTasks(Model model, HttpSession session){
-        List<TaskDTO> to_do = taskService.findToDo();
-        List<TaskDTO> in_progress = taskService.findInProgress();
-        List<TaskDTO> done = taskService.findDone();
+        List<TaskDTO> tasks = taskService.findallTasks();
         
         types = typeService.getAllTypes();
-        model.addAttribute("to_do", to_do);
-        model.addAttribute("in_progress", in_progress);
-        model.addAttribute("done", done);
+        model.addAttribute("tasks", tasks);
         model.addAttribute("view_all", true);
         model.addAttribute("status_task", types);
+        return "CRUD-task/view";
+    }
+
+    @GetMapping("/task/search")
+    public String Search(@RequestParam("search") String query, Model model,
+                        RedirectAttributes redirectatts){
+        if (query.isEmpty()){
+            return "redirect:/task";
+        }
+        List<TaskDTO> task = taskService.searchTask(query);
+        if(task.isEmpty()){
+            redirectatts.addFlashAttribute("cond", true);
+            redirectatts.addFlashAttribute("status", "danger");
+            redirectatts.addFlashAttribute("message", "No task found.");
+            return "redirect:/task";
+        }
+        redirectatts.addFlashAttribute("cond", true);
+        redirectatts.addFlashAttribute("status", "success");
+        redirectatts.addFlashAttribute("message", "Task found.");
+        // response.put("message", Arrays.asList(task));
+        // List<TaskDTO> task = taskService.searchTask(query);
+        model.addAttribute("tasks", task);
         return "CRUD-task/view";
     }
 
@@ -128,7 +147,7 @@ public class TaskController {
         redirectatts.addFlashAttribute("cond", true);
         redirectatts.addFlashAttribute("status", "warning");
         redirectatts.addFlashAttribute("message", "Task "+ task_user.getTitle() +" updated successfully.");
-        return "redirect:"+(String) session.getAttribute("lastVisit");
+        return "redirect:/task";
     }
 
     @GetMapping("/task/{taskId}/delete")
@@ -138,7 +157,7 @@ public class TaskController {
         redirectatts.addFlashAttribute("cond", true);
         redirectatts.addFlashAttribute("status", "danger");
         redirectatts.addFlashAttribute("message", "Task "+ title +" updated successfully.");
-        return "redirect:"+(String)session.getAttribute("lastVisit");
+        return "redirect:/task";
     }
     
 }
