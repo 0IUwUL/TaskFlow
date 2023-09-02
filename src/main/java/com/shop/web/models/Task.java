@@ -5,11 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.shop.web.Status;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,8 +27,8 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @Enumerated(EnumType.STRING)
-    private Status type;
+    // @Enumerated(EnumType.STRING)
+    // private Status type;
     private String description;
     @CreationTimestamp
     private LocalDateTime createdOn;
@@ -42,4 +38,8 @@ public class Task {
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     private Users user;
+
+    @ManyToOne
+    @JoinColumn(name="type_id", nullable = false)
+    private Type type;
 }

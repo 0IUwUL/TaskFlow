@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 
 import com.shop.web.dto.TaskDTO;
 import com.shop.web.models.Task;
+import com.shop.web.models.Type;
 import com.shop.web.models.Users;
 import com.shop.web.repository.TaskRepository;
+import com.shop.web.repository.TypeRepository;
 import com.shop.web.repository.UserRepository;
 import com.shop.web.service.TaskService;
 
@@ -22,9 +24,12 @@ public class TaskServiceImp implements TaskService {
 
     private TaskRepository taskRepo;
     private UserRepository userRepo;
-    public TaskServiceImp(TaskRepository taskRepo, UserRepository userRepo) {
+    private TypeRepository typeRepo;
+
+    public TaskServiceImp(TaskRepository taskRepo, UserRepository userRepo, TypeRepository typeRepo) {
         this.taskRepo = taskRepo;
         this.userRepo = userRepo;
+        this.typeRepo = typeRepo;
     }
 
     @Override
@@ -32,6 +37,8 @@ public class TaskServiceImp implements TaskService {
         Users user = userRepo.findById(userId).get();
         Task task = maptoTask(taskDTO);
         task.setUser(user);
+        Type type = typeRepo.findById(taskDTO.getType().getId()).orElse(null);
+        task.setType(type);
         taskRepo.save(task);
     }
 
