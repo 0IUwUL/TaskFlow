@@ -19,6 +19,9 @@
           <a class="navbar-brand" href="/">TaskFlow</a>
           <nav class="navbar" aria-label="breadcrumb">
             <ol class="breadcrumb m-0  d-flex align-content-center">
+              <li class="breadcrumb-item"><a type="button" class="btn btn-dark align-middle" th:href="@{/}">Home</a></li>
+              <li sec:authorize="!isAuthenticated()" class="breadcrumb-item"><a type="button" class="btn btn-dark align-middle" th:href="@{/register}">Register</a></li>
+              <li sec:authorize="!isAuthenticated()"class="breadcrumb-item"><a type="button" class="btn btn-dark align-middle" th:href="@{/login}">Log In</a></li>
               <li sec:authorize="isAuthenticated()" class="breadcrumb-item"><a type="button" class="btn btn-dark align-middle" th:href="@{/task}">Tasks</a></li>
               <li sec:authorize="isAuthenticated()"class="breadcrumb-item"><a type="button" class="btn btn-dark align-middle" th:href="@{/logout}">Log out</a></li>
             </ol>
