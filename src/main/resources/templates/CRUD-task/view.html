@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html 
+    lang="en"
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate = "~{layout}">
+<body>
+    <div layout:fragment = "body" class="container mt-5">
+        <div class="row">
+                <div class="col">
+                    <a type="button" class="btn btn-success" th:href = "@{/task/new}">
+                        Insert <i class="bi bi-plus-circle"></i>
+                    </a>
+                </div>
+            <div class= "col">
+                <form class="d-flex" role="search" th:action="@{/task/search}">
+                    <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-3 g-5 justify-content-around my-5">
+            <div class="col todo">
+                <h3 class="text-center">To Do</h3>
+                <div class="row g-3 flex-column">
+                    <div class="col">
+                        <th:block th:each="task: ${tasks}" th:if="${task.type.title == 'To Do'}">
+                            <div class="card border border-danger border shadow">
+                                <a class="text-decoration-none" th:href="@{/task/view/{taskId}(taskId=${task.id})}">
+                                    <div class="card-header text-white">
+                                        <h5 class="card-title text-center" th:text="${task.title}"></h5>
+                                    </div>
+                                    <div class="card-body border border-danger text-dark text-decoration-none">
+                                        <p class="card-text" th:utext="${task.description}"></p>
+                                    </div>
+                                </a>
+                                <div class="card-footer bg-dark d-flex justify-content-end">
+                                        <a type="button" th:href="@{/task/{taskId}/edit(taskId=${task.id})}" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a>
+                                        <a type="button" th:href="@{/task/{taskId}/delete(taskId=${task.id})}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a>  
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div class="col inprogress">
+                <h3 class="text-center">In Progress</h3>
+                <div class="row gy-3 flex-column">
+                    <div class="col">
+                        <th:block th:each="task: ${tasks}" th:if="${task.type.title == 'In Progress'}">
+                            <div class="card border border-warning border shadow">
+                                <a class="text-decoration-none" th:href="@{/task/view/{taskId}(taskId=${task.id})}">
+                                    <div class="card-header text-white">
+                                        <h5 class="card-title text-center" th:text="${task.title}"></h5>
+                                    </div>
+                                    <div class="card-body border border-warning text-decoration-none text-dark">
+                                        <p class="card-text" th:utext="${task.description}"></p>
+                                    </div>
+                                </a>
+                                <div class="card-footer bg-dark d-flex justify-content-end">
+                                        <a type="button" th:href="@{/task/{taskId}/edit(taskId=${task.id})}" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a>
+                                        <a type="button" th:href="@{/task/{taskId}/delete(taskId=${task.id})}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a>  
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div class="col done">
+                <h3 class="text-center">Done</h3>
+                <div class="row flex-column gy-3">
+                    <div class="col">
+                        <th:block th:each="task: ${tasks}" th:if="${task.type.title == 'Done'}">
+                            <div class="card border border-success border shadow">
+                                <a class="text-decoration-none" th:href="@{/task/view/{taskId}(taskId=${task.id})}">
+                                    <div class="card-header text-white">
+                                        <h5 class="card-title text-center" th:text="${task.title}"></h5>
+                                    </div>
+                                    <div class="card-body border border-success text-decoration-none text-dark">
+                                        <p class="card-text" th:utext="${task.description}"></p>
+                                    </div>
+                                </a>
+                                <div class="card-footer bg-dark d-flex justify-content-end">
+                                        <a type="button" th:href="@{/task/{taskId}/edit(taskId=${task.id})}" class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></a>
+                                        <a type="button" th:href="@{/task/{taskId}/delete(taskId=${task.id})}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></a>  
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

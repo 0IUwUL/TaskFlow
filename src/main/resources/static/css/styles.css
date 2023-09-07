@@ -1,0 +1,164 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/* overall */
+@font-face {
+    font-family: all;
+    src: url('assets/fonts/Nunito.ttf');
+}
+
+/* title */
+@font-face {
+    font-family: title;
+    src: url('/assets/fonts/Oswald.ttf')
+    format('truetype'); 
+ }
+
+ /* navbar */
+@font-face {
+    font-family: navTitle;
+    src: url('/assets/fonts/Exo2.ttf')
+    format('truetype'); 
+ }
+
+  /* form */
+@font-face {
+    font-family: form;
+    src: url('/assets/fonts/Catamaran.ttf')
+    format('truetype'); 
+ }
+
+ /* card header */
+ @font-face {
+    font-family: card-header;
+    src: url('assets/fonts/IBMMono.ttf');
+ }
+
+.breadcrumb-item+.breadcrumb-item::before {
+    padding: .5em!important;
+}
+
+nav{
+    font-family: navTitle;
+}
+
+h1.title{
+    font-family: title;
+}
+
+form{
+    font-family: form;
+}
+
+.todo h3,
+.inprogress h3,
+.done h3{
+    font-family: card-header;
+}
+
+.navbar-brand{
+    font-size: 2rem!important;
+}
+
+
+
+body{
+    background-color: rgb(180, 215, 255);
+}
+
+h1.title,
+.description,
+.contain{
+    background-color: rgba(97, 97, 97, 0.597);
+    color: whitesmoke;
+}
+
+.contain{
+    padding: 1.4rem;
+}
+
+h1.title{
+    border-radius: 50px 50px 0 0;
+}
+
+.description{
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+}
+
+.box{
+    margin-top: 3rem;
+}
+
+.box a{
+    font-family: navTitle;
+}
+
+.form{
+    background-color: rgba(56, 56, 56, 0.766);
+}
+
+.form label{
+    font-weight: 700;
+    color: whitesmoke;
+}
+
+.col.insert-group{
+    min-height: 100rem;
+}
+
+.todo .card-header{
+    background-color: rgb(168, 0, 22);
+}
+
+.inprogress .card-header{
+    background-color: rgb(199, 199, 0);
+}
+
+.done .card-header{
+    background-color: rgb(0, 95, 11);
+    
+}
+
+.card-footer a{
+    margin: 0 .5rem;
+}
+
+.col.todo .row.flex-column .col,
+.col.inprogress .row.flex-column .col,
+.col.done .row.flex-column .col{
+    min-height: 58vh;
+    max-height: 58vh;
+    overflow-y: auto;
+    padding: .5rem .3rem;
+    border-radius: 10px;
+    box-shadow: 5px 5px rgba(36, 40, 54, 0.766);
+}
+
+.col.todo .row.flex-column .col{
+    background-color: rgba(212, 124, 124, 0.5);
+}
+
+.col.inprogress .row.flex-column .col{
+    background-color: rgba(188, 190, 105, 0.5);
+}
+
+.col.done .row.flex-column .col{
+    background-color: rgba(104, 195, 104, 0.5);
+}
+
+.col.todo .row.flex-column .col .card{
+    margin-bottom: 1rem;
+}
+
+/* Customize scrollbar */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(56, 56, 56, 0.5); /* Color of the scrollbar thumb */
+    border-radius: 6px; /* Radius of the thumb */
+}

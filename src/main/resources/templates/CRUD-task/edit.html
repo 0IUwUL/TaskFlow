@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html 
+    lang="en"
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate = "~{layout}">
+<body>
+    <div layout:fragment = "body" class="container mt-5 col-lg-8">
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <h1>Edit Form</h1>
+            </div>
+        </div>
+
+        <form method="post" role="form" th:action="@{/edit_task/{taskId}(taskId=${taskId})}" th:object = "${task}">
+            <input type="hidden" id="id" name="id" th:field="*{id}"/>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text"class="form-control" placeholder="Input Title of Task" id="title" name="title" th:field="*{title}"/>
+                <p th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}"></p>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" th:field="*{description}" style="height: 100px"></textarea>
+                    <label for="description">Insert Description</label>
+                </div>
+                <p th:if="${#fields.hasErrors('description')}" class="text-danger" th:errors="*{description}"></p>
+            </div>
+            <select class="form-select" name="type" aria-label="Default value To do" th:field = "*{type}">
+                <option th:each="value: ${status_task}" th:value="${value.id}" th:text="${value.title}"></option>
+            </select>
+        
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-5">
+            <a type="button" th:href="@{/task}" class="btn btn-secondary">Close</a>
+            <button type="submit" class="btn btn-warning btn-outline-dark">Edit <i class="bi bi-pencil-square"></i></button>
+        </div>
+        
+
+        </form>
+    </div>
+    
+</body>
+</html>
