@@ -70,8 +70,6 @@ public class TaskController {
         redirectatts.addFlashAttribute("cond", true);
         redirectatts.addFlashAttribute("status", "success");
         redirectatts.addFlashAttribute("message", "Task found.");
-        // response.put("message", Arrays.asList(task));
-        // List<TaskDTO> task = taskService.searchTask(query);
         model.addAttribute("tasks", task);
         return "CRUD-task/view";
     }
@@ -84,6 +82,16 @@ public class TaskController {
         model.addAttribute("task", task);
         model.addAttribute("status_task", types);
         return "CRUD-task/insert";
+    }
+
+    //display input form
+    @GetMapping("/task/view/{taskId}")
+    public String visitTask(@PathVariable("taskId") Long taskId, Model model){
+        TaskDTO tasksDTO = taskService.findById(taskId);
+        if(tasksDTO != null)
+            created_on = tasksDTO.getCreatedOn();
+        model.addAttribute("task", tasksDTO);
+        return "CRUD-task/task";
     }
 
     //receive insert
@@ -156,7 +164,7 @@ public class TaskController {
         String title = taskService.deleteTask(taskId);
         redirectatts.addFlashAttribute("cond", true);
         redirectatts.addFlashAttribute("status", "danger");
-        redirectatts.addFlashAttribute("message", "Task "+ title +" updated successfully.");
+        redirectatts.addFlashAttribute("message", "Task "+ title +" deleted successfully.");
         return "redirect:/task";
     }
     
